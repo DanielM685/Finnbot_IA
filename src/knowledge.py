@@ -1,30 +1,35 @@
 import json
-import os
+from pathlib import Path
 
-def _cargar_productos():
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    products_path = os.path.join(base_dir, "..", "data", "products.json")
-    with open(products_path, "r", encoding="utf-8") as f:
+_PRODUCTS_PATH = Path(__file__).parent.parent / "data" / "products.json"
+
+_TIPOS_GASTO = {"compra", "pago"}
+
+
+def _cargar_productos() -> list:
+    with open(_PRODUCTS_PATH, encoding="utf-8") as f:
         return json.load(f)["productos"]
+
 
 def get_product_context(query: str = "") -> str:
     """Devuelve solo los productos relevantes según la query del usuario."""
-    
+
     productos = _cargar_productos()
     query_lower = query.lower()
 
-    # Filtrar productos relevantes por palabras clave o nombre
     if query_lower:
         relevantes = [
             p for p in productos
             if any(kw in query_lower for kw in p.get("palabras_clave", []))
-            or any(palabra in query_lower for palabra in p.get("nombre", "").lower().split())
+            or any(
+                palabra in query_lower
+                for palabra in p.get("nombre", "").lower().split()
+            )
         ]
-        # Si no encontró nada, tomar los primeros 5 como fallback
         if not relevantes:
-            relevantes = productos[:5]
+            relevantes = productos[:4]
     else:
-        relevantes = productos[:5]
+        relevantes = productos[:4]
 
     context = "=== PRODUCTOS SERFINANZA RELEVANTES ===\n\n"
     for p in relevantes:
@@ -34,3 +39,12 @@ def get_product_context(query: str = "") -> str:
         context += "-" * 40 + "\n"
 
     return context
+
+
+def get_product_info(nombre: str) -> dict:
+    """Busca un producto por nombre (búsqueda parcial, ignora mayúsculas)."""
+    nombre_lower = nombre.lower()
+    for p in _cargar_productos():
+        if nombre_lower in p.get("nombre", "").lower():
+            return p
+    return {}

@@ -1,0 +1,98 @@
+  {
+  "usuario": {
+    "nombre": "Laura Camila Ríos Herrera",
+    "cedula": "1020456789",
+    "edad": 34,
+    "ciudad": "Bogotá",
+    "ocupacion": "Analista de Recursos Humanos - empresa privada",
+    "ingresos_mensuales": 4800000,
+    "antiguedad_cliente_años": 3,
+    "perfil_riesgo": "moderado"
+  },
+  "productos_activos": [
+    {
+      "id": "PROD-TC-001",
+      "tipo": "tarjeta",
+      "nombre": "Tarjeta Gold Serfinanza",
+      "saldo_actual": 3200000,
+      "cupo_total": 10000000,
+      "cuota_mensual": 160000,
+      "fecha_apertura": "2023-05-15",
+      "fecha_vencimiento": "2027-05-15",
+      "cuotas_pagadas": 0,
+      "cuotas_totales": 0,
+      "tasa_ea": 24.50,
+      "estado": "activo"
+    },
+    {
+      "id": "PROD-CL-001",
+      "tipo": "credito",
+      "nombre": "Crédito Libre Inversión",
+      "saldo_actual": 9400000,
+      "cupo_total": 15000000,
+      "cuota_mensual": 420000,
+      "fecha_apertura": "2024-11-05",
+      "fecha_vencimiento": "2027-11-05",
+      "cuotas_pagadas": 18,
+      "cuotas_totales": 36,
+      "tasa_ea": 22.00,
+      "estado": "activo"
+    },
+    {
+      "id": "PROD-CDT-001",
+      "tipo": "cdt",
+      "nombre": "CDT 180 días",
+      "saldo_actual": 5000000,
+      "cupo_total": 5000000,
+      "cuota_mensual": 0,
+      "fecha_apertura": "2026-03-23",
+      "fecha_vencimiento": "2026-09-19",
+      "cuotas_pagadas": 0,
+      "cuotas_totales": 0,
+      "tasa_ea": 9.20,
+      "estado": "activo"
+    },
+    {
+      "id": "PROD-CA-001",
+      "tipo": "ahorro",
+      "nombre": "Cuenta de Ahorro Serfinanza",
+      "saldo_actual": 1850000,
+      "cupo_total": 0,
+      "cuota_mensual": 0,
+      "fecha_apertura": "2023-02-10",
+      "fecha_vencimiento": "",
+      "cuotas_pagadas": 0,
+      "cuotas_totales": 0,
+      "tasa_ea": 2.50,
+      "estado": "activo"
+    }
+  ],
+  "resumen_financiero": {
+    "total_deudas": 12600000,
+    "total_ahorros_e_inversiones": 6850000,
+    "cuota_mensual_total": 580000,
+    "capacidad_endeudamiento_restante": 860000,
+    "indicador_salud_financiera": "saludable"
+  },
+  "alertas": [
+    {
+      "tipo": "advertencia",
+      "mensaje": "Tu fecha límite de pago de la Tarjeta Gold vence el 4 de junio de 2026. Pago mínimo: $160.000. Realiza el pago antes de esa fecha para evitar intereses de mora y reporte negativo.",
+      "producto_relacionado": "Tarjeta Gold Serfinanza",
+      "fecha": "2026-05-23"
+    },
+    {
+      "tipo": "advertencia",
+      "mensaje": "Tu cuota del Crédito Libre Inversión ($420.000) se débita automáticamente el 30 de mayo. Asegúrate de tener saldo suficiente en tu Cuenta de Ahorro.",
+      "producto_relacionado": "Crédito Libre Inversión",
+      "fecha": "2026-05-23"
+    },
+    {
+      "tipo": "info",
+      "mensaje": "Tu CDT de $5.000.000 vence el 19 de septiembre de 2026 (en 119 días). Puedes configurar ya la renovación automática o indicar si prefieres recibir el dinero en tu cuenta.",
+      "producto_relacionado": "CDT 180 días",
+      "fecha": "2026-05-23"
+    }
+  ],
+  "ultima_actualizacion": "2026-05-23T00:00:00"
+}

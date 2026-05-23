@@ -1,38 +1,132 @@
 import os
+import sys
+import json
+from pathlib import Path
 from dotenv import load_dotenv
 from langchain_groq import ChatGroq
+
+# ── Rutas ────────────────────────────────────────────────────────
+SRC_DIR  = Path(__file__).parent
+DATA_DIR = SRC_DIR.parent / "data"
+
+sys.path.insert(0, str(SRC_DIR))
+
+import transactions as _txn_mod
+import user_context as _ctx_mod
+_txn_mod._TXN_PATH = DATA_DIR / "transactions.json"
+_ctx_mod._CTX_PATH = DATA_DIR / "user_context.json"
+
+from transactions import (
+    load_transactions,
+    get_context_for_prompt as get_txn_context,
+)
+from user_context import (
+    get_context_for_prompt as get_user_context,
+    load_context,
+)
 from knowledge import get_product_context
 
 load_dotenv()
 
+# ── LLM ──────────────────────────────────────────────────────────
 llm = ChatGroq(
-    model="llama-3.3-70b-versatile",  # Gratis y muy capaz
+    model="llama-3.3-70b-versatile",
     api_key=os.getenv("GROQ_API_KEY"),
-    temperature=0.7
+    temperature=0.7,
+    max_tokens=1024,  # suficiente para respuestas completas
 )
 
+_fmt = lambda v: "$" + f"{float(v):,.0f}".replace(",", ".")
+
+
+# ── Contexto extendido de transacciones ──────────────────────────
+def _get_txn_context_completo() -> str:
+    """
+    Construye un bloque de texto con TODAS las transacciones del usuario,
+    ordenadas de más reciente a más antigua. Incluye ID, fecha, comercio,
+    categoría, monto y estado. Así el LLM puede buscar por ID o comercio.
+    """
+    txns = sorted(
+        load_transactions(),
+        key=lambda t: (t["fecha"], t.get("hora", "")),
+        reverse=True,
+    )
+
+    if not txns:
+        return "Sin transacciones registradas."
+
+    lines = ["HISTORIAL COMPLETO DE TRANSACCIONES (ordenado de más reciente a más antiguo):"]
+    for t in txns:
+        estado_tag = "✓" if t["estado"] == "aprobada" else ("✗" if t["estado"] == "rechazada" else "⏳")
+        cuotas_txt = f" ({t['cuotas']} cuota{'s' if t['cuotas'] > 1 else ''})" if t.get("cuotas", 1) > 1 else ""
+        lines.append(
+            f"[{t['id']}] {estado_tag} {t['fecha']} {t.get('hora','')} | "
+            f"{t['tipo'].upper()} | {t['comercio']} | "
+            f"{t.get('categoria', '')} | {_fmt(t['monto'])}{cuotas_txt} | "
+            f"{t['canal']} | {t.get('descripcion', '')}"
+        )
+
+    return "\n".join(lines)
+
+
+# ── Alertas ───────────────────────────────────────────────────────
+def _get_alertas() -> str:
+    try:
+        alertas = load_context().get("alertas", [])
+        if not alertas:
+            return ""
+        lines = ["ALERTAS ACTIVAS DEL CLIENTE:"]
+        for a in alertas:
+            icono = "⚠️" if a["tipo"] == "advertencia" else "ℹ️"
+            lines.append(f"{icono} {a['mensaje']}")
+        return "\n".join(lines)
+    except Exception:
+        return ""
+
+
+# ── Nombre ────────────────────────────────────────────────────────
+def _get_nombre() -> str:
+    try:
+        nombre = load_context()["usuario"].get("nombre", "").strip()
+        return nombre.split()[0] if nombre else "cliente"
+    except Exception:
+        return "cliente"
+
+
+# ── Función principal ─────────────────────────────────────────────
 def ask_agent(user_message: str, history: list) -> str:
-    product_context = get_product_context(query=user_message)
+    user_info    = get_user_context()
+    txn_resumen  = get_txn_context()           # resumen últimos 30 días
+    txn_completo = _get_txn_context_completo() # historial completo para búsquedas
+    alertas      = _get_alertas()
+    product_info = get_product_context(query=user_message)
+    nombre       = _get_nombre()
 
-    messages = [
-        ("system", f"""Eres FinnBot, asesor virtual de Banco Serfinanza. Tu objetivo es ayudar al cliente a encontrar el producto ideal para su situación.
+    system_prompt = f"""Eres FinnBot, el asesor virtual de Banco Serfinanza. Atiendes a {nombre}.
 
-INFORMACIÓN DE PRODUCTOS DISPONIBLES (solo para consulta interna):
-{product_context}
+{user_info}
 
-INSTRUCCIONES DE COMPORTAMIENTO:
-- Actúa como un asesor humano: haz preguntas si necesitas más contexto, recomienda con base en la situación del cliente.
-- NUNCA copies ni listas toda la información de un producto. Resume en máximo 3 líneas lo relevante para el cliente.
-- Si el cliente pregunta algo general como "¿qué producto me sirve para X?", pregúntale detalles antes de responder.
-- Si ya tienes suficiente contexto, recomienda UNO o DOS productos máximo explicando POR QUÉ le convienen.
-- Sé breve, cálido y comercial. Nada de bloques de texto largos.
-- Si no tienes la información exacta, sugiere llamar al 323 599 7000 o ir a sucursal.
-- No inventes tasas, montos ni condiciones que no estén en la información."""),
-    ]
+{alertas}
 
+{txn_resumen}
+
+{txn_completo}
+
+CATÁLOGO DE PRODUCTOS SERFINANZA (referencia interna):
+{product_info}
+
+INSTRUCCIONES:
+- Usa el nombre del cliente de forma natural pero sin exagerar.
+- Responde SIEMPRE con la información EXACTA disponible en los datos anteriores. Nunca digas que no tienes un dato si aparece en los datos.
+- Para buscar transacciones: usa el HISTORIAL COMPLETO. Puedes buscar por ID (ej: TXN-025), por comercio, por categoría o por período.
+- Si hay alertas activas relacionadas con la pregunta, mencionarlas primero.
+- Sé conciso pero COMPLETO: no cortes la respuesta a mitad. Da toda la información relevante.
+- Si recomiendas un producto, explica por qué le conviene a ELLA según su perfil e ingresos.
+- Si genuinamente no tienes el dato, sugiere llamar al 01 8000 123 456."""
+
+    messages = [("system", system_prompt)]
     for interaction in history:
         messages.append(interaction)
-
     messages.append(("human", user_message))
 
     response = llm.invoke(messages)
