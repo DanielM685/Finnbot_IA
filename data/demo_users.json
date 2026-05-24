@@ -1,0 +1,28 @@
+{
+  "usuarios": [
+    {
+      "id": "USR-001",
+      "nombre": "Laura Camila Ríos Herrera",
+      "descripcion": "Analista de RRHH · Bogotá",
+      "emoji": "👩‍💼",
+      "archivo_contexto": "data/user_context.json",
+      "archivo_transacciones": "data/transactions.json"
+    },
+    {
+      "id": "USR-002",
+      "nombre": "Carlos Andrés Méndez",
+      "descripcion": "Docente público · Medellín",
+      "emoji": "👨‍🏫",
+      "archivo_contexto": "data/user_context_carlos.json",
+      "archivo_transacciones": "data/transactions_carlos.json"
+    },
+    {
+      "id": "USR-003",
+      "nombre": "Valentina Torres Ospina",
+      "descripcion": "Emprendedora · Cali",
+      "emoji": "👩‍💻",
+      "archivo_contexto": "data/user_context_valentina.json",
+      "archivo_transacciones": "data/transactions_valentina.json"
+    }
+  ]
+}   

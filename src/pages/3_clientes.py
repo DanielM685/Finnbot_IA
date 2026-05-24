@@ -12,81 +12,74 @@ st.set_page_config(
 )
 
 if "rol" not in st.session_state or st.session_state.rol != "cliente":
-    st.error("⚠️ Acceso denegado. Esta sección es exclusiva para clientes.")
+    st.error("Acceso denegado. Esta sección es exclusiva para clientes.")
     if st.button("Ir a la Página de Inicio", use_container_width=True):
         st.switch_page("src/pages/inicio.py")
     st.stop()
 
-# ── CSS personalizado ─────────────────────────────────────────────
+# ── CSS personalizado (Patrón de diseño unificado, accesible y limpio) ──
 st.markdown("""
 <style>
-/* Tarjeta de salud financiera */
-.salud-card {
-    background: linear-gradient(135deg, #0f2942 0%, #1a3f6f 100%);
-    border-radius: 16px;
-    padding: 24px;
-    color: white;
-    margin-bottom: 8px;
-}
-.salud-badge {
-    display: inline-block;
-    padding: 4px 14px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    margin-bottom: 12px;
-}
-.badge-saludable  { background: #22c55e; color: #052e16; }
-.badge-moderado   { background: #f59e0b; color: #1c1003; }
-.badge-en-riesgo  { background: #ef4444; color: #1c0202; }
-
-/* Barra de progreso custom */
-.barra-wrap { margin: 8px 0 16px 0; }
-.barra-label { font-size: 12px; color: #94a3b8; margin-bottom: 4px; }
-.barra-bg {
-    background: rgba(255,255,255,0.12);
-    border-radius: 8px;
-    height: 10px;
-    overflow: hidden;
-}
-.barra-fill {
-    height: 10px;
-    border-radius: 8px;
-    transition: width 0.6s ease;
+/* Tipografía y accesibilidad general */
+html, body, [data-testid="stMarkdownContainer"] p {
+    font-size: 15px !important;
+    line-height: 1.6 !important;
 }
 
-/* Tarjeta de alerta */
+/* Tarjetas de Alerta limpias, sin emojis y con alto contraste */
 .alerta-warn {
-    background: #fff7ed;
-    border-left: 4px solid #f59e0b;
+    background: #fffbeb;
+    border-left: 5px solid #d97706;
     border-radius: 8px;
-    padding: 12px 16px;
-    margin-bottom: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+    color: #92400e;
     font-size: 14px;
-    color: #1a1a1a;
 }
 .alerta-info {
-    background: #eff6ff;
-    border-left: 4px solid #3b82f6;
+    background: #f0fdf4;
+    border-left: 5px solid #16a34a;
     border-radius: 8px;
-    padding: 12px 16px;
-    margin-bottom: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+    color: #166534;
     font-size: 14px;
-    color: #1a1a1a;
 }
 
-/* Tarjeta de producto */
+/* Tarjetas de Producto consistentes */
 .prod-card {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
     border-radius: 12px;
-    padding: 14px 16px;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.prod-titulo { 
+    font-weight: 700; 
+    font-size: 15px; 
+    color: #0f172a; 
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.prod-sub { 
+    font-size: 13px; 
+    color: #475569; 
+    margin-top: 4px; 
     margin-bottom: 8px;
 }
-.prod-titulo { font-weight: 700; font-size: 14px; color: #0f172a; }
-.prod-sub    { font-size: 12px; color: #64748b; margin-top: 2px; }
-.prod-monto  { font-size: 18px; font-weight: 800; color: #0f2942; margin-top: 6px; }
+.prod-monto { 
+    font-size: 20px; 
+    font-weight: 800; 
+    color: #0f2942; 
+}
+
+/* Texto destacado para estados financieros sin depender de círculos de color */
+.estado-valor {
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -130,13 +123,13 @@ capacidad       = resumen["capacidad_endeudamiento_restante"]
 indicador       = resumen["indicador_salud_financiera"]
 nombre          = usuario["nombre"].split()[0]
 
-# ── ENCABEZADO ────────────────────────────────────────────────────
-st.markdown(f"## 👋 Hola, {nombre}")
-st.markdown("Tu resumen financiero personal de hoy.")
+# ── ENCABEZADO (Lenguaje claro y bienvenida humana) ─────────────────
+st.title(f"Bienvenido, {nombre}")
+st.markdown("Este es el resumen del estado de sus cuentas e ingresos para el día de hoy.")
 st.divider()
 
 # ══════════════════════════════════════════════════════════════════
-# FILA 1: Métricas rápidas de transacciones
+# FILA 1: Métricas rápidas de transacciones (Estructura limpia)
 # ══════════════════════════════════════════════════════════════════
 col1, col2, col3, col4 = st.columns(4)
 
@@ -150,13 +143,13 @@ gasto_mes      = int(df_datos[
 ]["monto"].sum())
 
 with col1:
-    st.metric("💳 Gasto Total Registrado",  f"${total_aprobado:,}")
+    st.metric(label="Gasto Total Registrado", value=f"${total_aprobado:,}")
 with col2:
-    st.metric("🔢 Total Movimientos",        f"{total_txn:,}")
+    st.metric(label="Número de Movimientos", value=f"{total_txn:,}")
 with col3:
-    st.metric("📅 Gasto Este Mes",           f"${gasto_mes:,}")
+    st.metric(label="Gasto Realizado Este Mes", value=f"${gasto_mes:,}")
 with col4:
-    st.metric("📊 Promedio por Transacción", f"${int(promedio_txn):,}")
+    st.metric(label="Promedio por Operación", value=f"${int(promedio_txn):,}")
 
 st.write("")
 
@@ -166,24 +159,24 @@ st.write("")
 col_salud, col_alertas = st.columns([1.1, 0.9])
 
 with col_salud:
-    # 1. Mapeo de estados (Usamos texto nativo con emojis en lugar de Badges CSS)
+    # Mapeo de estados sin emojis de colores, usando lenguaje natural y descriptivo
     badge_map = {
-        "saludable": "🟢 SALUDABLE",
-        "moderado":  "🟡 MODERADO",
-        "en riesgo": "🔴 EN RIESGO",
+        "saludable": "ESTADO BUENO",
+        "moderado":  "ESTADO MODERADO",
+        "en riesgo": "REQUIERE ATENCIÓN",
     }
     estado_txt = badge_map.get(indicador, indicador.upper())
 
-    # 2. Cálculos matemáticos de porcentajes
-    pct_cuota   = min((cuota_total / ingresos) if ingresos else 0.0, 1.0) # st.progress pide valor entre 0.0 y 1.0
+    # Cálculos matemáticos de porcentajes
+    pct_cuota   = min((cuota_total / ingresos) if ingresos else 0.0, 1.0)
     total_neto  = total_deudas + total_ahorros
     pct_deuda   = min((total_deudas / total_neto) if total_neto else 0.0, 1.0)
 
-    # 3. Contenedor principal que simula la tarjeta
+    # Contenedor principal integrado al diseño nativo
     with st.container(border=True):
-        # Encabezado y Estado
-        st.subheader("📊 Salud Financiera")
-        st.caption(f"Estado actual: **{estado_txt}** — Basado en tus productos activos e ingresos")
+        st.subheader("Resumen de Salud Financiera")
+        st.markdown(f"Su situación actual se califica como: **{estado_txt}**")
+        st.caption("Este análisis se genera automáticamente a partir de sus ingresos y sus deudas vigentes.")
         
         st.divider()
 
@@ -194,35 +187,35 @@ with col_salud:
         with sub_col2:
             st.metric("Ahorros e Inversiones", f"${total_ahorros:,}")
         with sub_col3:
-            st.metric("Capacidad Disponible", f"${capacidad:,}")
+            st.metric("Capacidad de Endeudamiento", f"${capacidad:,}")
 
-        st.write("") # Espacio
+        st.write("")
 
         # Barra 1: Cuota mensual vs Ingresos
-        st.write(f"**Cuota mensual vs ingresos** ({pct_cuota*100:.1f}% de ${ingresos:,})")
+        st.markdown(f"**Uso de sus ingresos para el pago de cuotas mensuales** ({pct_cuota*100:.1f}% del total disponible)")
         st.progress(pct_cuota)
         
         # Barra 2: Distribución Deuda vs Ahorro
-        st.write(f"**Distribución de capital** ({pct_deuda*100:.0f}% Deuda / {(1-pct_deuda)*100:.0f}% Ahorros)")
+        st.markdown(f"**Distribución de su patrimonio actual** ({pct_deuda*100:.0f}% Deudas / {(1-pct_deuda)*100:.0f}% Ahorros)")
         st.progress(pct_deuda)
 
         st.divider()
         
-        # Pie de tarjeta con datos informativos
-        st.caption(f"💰 **Ingresos mensuales:** ${ingresos:,} | 💳 **Cuota total:** ${cuota_total:,}/mes")
+        # Detalles informativos complementarios en texto claro
+        st.markdown(f"**Detalle de montos:** Ingresos mensuales: `${ingresos:,}` | Pago total de cuotas: `${cuota_total:,}` al mes.")
 
 with col_alertas:
-    st.markdown("#### 🔔 Alertas Activas")
+    st.subheader("Notificaciones Importantes")
     if alertas:
         for a in alertas:
             css_cls = "alerta-warn" if a["tipo"] == "advertencia" else "alerta-info"
-            icono   = "⚠️" if a["tipo"] == "advertencia" else "ℹ️"
+            # Se eliminaron los prefijos de emojis para mantener una interfaz sobria y legible
             st.markdown(
-                f'<div class="{css_cls}">{icono} <strong>{a["producto_relacionado"]}</strong><br>{a["mensaje"]}</div>',
+                f'<div class="{css_cls}"><strong>{a["producto_relacionado"]}</strong><br>{a["mensaje"]}</div>',
                 unsafe_allow_html=True
             )
     else:
-        st.success("✅ No tienes alertas pendientes.")
+        st.success("Usted no presenta notificaciones ni tareas pendientes en este momento.")
 
 st.write("")
 
@@ -232,66 +225,59 @@ st.write("")
 col_prod, col_chart = st.columns([0.9, 1.1])
 
 with col_prod:
-    st.markdown("#### 🏦 Tus Productos Activos")
-
-    tipo_iconos = {
-        "tarjeta": "💳",
-        "credito": "🏦",
-        "cdt":     "📈",
-        "ahorro":  "🐷",
-    }
+    st.subheader("Sus Productos Activos")
 
     for p in productos:
-        icono = tipo_iconos.get(p["tipo"], "📄")
         saldo = p["saldo_actual"]
         cupo  = p.get("cupo_total", 0)
 
-        # Línea extra según tipo
+        # Configuración de textos informativos según tipo de producto (Sin emojis)
         if p["tipo"] == "tarjeta" and cupo:
             disponible = cupo - saldo
-            extra = f"Cupo disponible: <strong>${disponible:,}</strong> de ${cupo:,}"
+            extra = f"Cupo libre para usar: <strong>${disponible:,}</strong> de un total de ${cupo:,}"
         elif p["tipo"] == "credito" and p.get("cuotas_totales"):
             pagadas = p["cuotas_pagadas"]
             total_c = p["cuotas_totales"]
             pct     = int(pagadas / total_c * 100)
-            extra   = f"Progreso: {pagadas}/{total_c} cuotas ({pct}%)"
+            extra   = f"Progreso de pago: {pagadas} de {total_c} cuotas canceladas ({pct}%)"
         elif p["tipo"] == "cdt":
-            extra = f"Vence: {p.get('fecha_vencimiento', '—')} · Tasa: {p.get('tasa_ea', 0)}% E.A."
+            extra = f"Fecha de vencimiento: {p.get('fecha_vencimiento', '—')} · Rendimiento: {p.get('tasa_ea', 0)}% E.A."
         else:
-            extra = f"Tasa: {p.get('tasa_ea', 0)}% E.A."
+            extra = f"Rendimiento del producto: {p.get('tasa_ea', 0)}% E.A."
 
-        cuota_txt = f" · Cuota: ${p['cuota_mensual']:,}/mes" if p.get("cuota_mensual") else ""
+        cuota_txt = f" · Pago mensual: ${p['cuota_mensual']:,}" if p.get("cuota_mensual") else ""
 
         st.markdown(f"""
         <div class="prod-card">
-            <div class="prod-titulo">{icono} {p['nombre']}</div>
+            <div class="prod-titulo">{p['nombre']}</div>
             <div class="prod-sub">{extra}{cuota_txt}</div>
-            <div class="prod-monto">${saldo:,} <span style="font-size:12px;font-weight:400;color:#64748b;">COP</span></div>
+            <div class="prod-monto">${saldo:,} <span style="font-size:13px;font-weight:400;color:#64748b;">Pesos (COP)</span></div>
         </div>
         """, unsafe_allow_html=True)
 
 with col_chart:
     with st.container(border=True):
-        st.subheader("📊 Distribución de Gastos")
+        st.subheader("¿En qué se va el dinero?")
+        st.caption("Seleccione una opción en la lista de abajo para cambiar cómo se agrupan sus gastos en el gráfico:")
 
         opciones_visuales = {
-            "Categoría":            "categoria",
-            "Canal de Pago":        "canal",
-            "Tipo de Transacción":  "tipo",
-            "Estado":               "estado",
-            "Ciudad":               "ciudad",
+            "Por Categoría de Gasto":    "categoria",
+            "Por Canal o Medio de Pago": "canal",
+            "Por Tipo de Operación":     "tipo",
+            "Por Estado de la Cuenta":   "estado",
+            "Por Ciudad":                "ciudad",
         }
 
         parametro = st.selectbox(
-            "Agrupar por:",
+            "Seleccionar criterio de agrupación:",
             options=list(opciones_visuales.keys()),
-            index=0,
-            label_visibility="collapsed"
+            index=0
         )
 
         columna_activa = opciones_visuales[parametro]
         df_chart = df_datos.groupby(columna_activa, as_index=False)["monto"].sum()
 
+        # Gráfico adaptado con colores corporativos y limpios de Altair
         grafico = (
             alt.Chart(df_chart)
             .mark_arc(innerRadius=65, stroke="#fff", strokeWidth=2)
@@ -300,39 +286,39 @@ with col_chart:
                 color=alt.Color(
                     field=columna_activa,
                     type="nominal",
-                    legend=alt.Legend(title=parametro),
+                    legend=alt.Legend(title="Referencias"),
                     scale=alt.Scale(scheme="tableau10")
                 ),
                 tooltip=[
-                    alt.Tooltip(field=columna_activa, title=parametro),
-                    alt.Tooltip(field="monto", title="Monto ($)", format=",d"),
+                    alt.Tooltip(field=columna_activa, title="Clasificación"),
+                    alt.Tooltip(field="monto", title="Dinero total ($)", format=",d"),
                 ]
             )
-            .properties(height=300)
+            .properties(height=320)
         )
         st.altair_chart(grafico, use_container_width=True)
 
 st.write("")
 
 # ══════════════════════════════════════════════════════════════════
-# FILA 4: Botones de navegación
+# FILA 4: Botones de navegación (Con instrucciones explícitas)
 # ══════════════════════════════════════════════════════════════════
 col_b1, col_b2 = st.columns(2)
 
 with col_b1:
     with st.container(border=True):
-        st.subheader("💬 Consultas y Soporte")
-        st.write("Pregunta sobre tus productos, saldos, movimientos o cualquier duda sobre Serfinanza.")
+        st.subheader("Atención al Cliente y Soporte")
+        st.markdown("Si tiene dudas sobre sus saldos, productos o movimientos, presione el botón de abajo para hablar con un asesor virtual.")
         st.write("")
-        if st.button("💬 Abrir Chat de Soporte", use_container_width=True, type="primary"):
+        if st.button("Ir al Chat de Soporte", use_container_width=True, type="primary"):
             st.switch_page("pages/1_chatbot.py")
 
 with col_b2:
     with st.container(border=True):
-        st.subheader("📊 Plan de Ahorros con Nova")
-        st.write("Analiza tus hábitos de gasto y construye un plan de ahorro personalizado.")
+        st.subheader("Herramientas de Plan de Ahorro")
+        st.markdown("Consulte el análisis detallado de sus consumos mensuales y organice sus metas de ahorro futuras, presione el botón de abajo.")
         st.write("")
-        if st.button("📂 Ir al Plan de Ahorros", use_container_width=True):
+        if st.button("Ver mi Plan de Ahorros", use_container_width=True, type="primary"):
             st.switch_page("pages/2_reportes.py")
 
 st.divider()

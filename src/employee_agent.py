@@ -14,7 +14,7 @@ load_dotenv()
 
 # ── LLM ──────────────────────────────────────────────────────────
 llm = ChatGroq(
-    model="llama-3.3-70b-versatile",
+    model="llama-3.1-8b-instant",
     api_key=os.getenv("GROQ_API_KEY"),
     temperature=0.4,   # más preciso para uso interno
     max_tokens=1024,

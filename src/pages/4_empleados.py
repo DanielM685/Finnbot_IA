@@ -11,15 +11,15 @@ from user_context import load_context
 st.set_page_config(page_title="FinnBot - Banco Serfinanza", layout="wide")
 
 
-if "rol" not in st.session_state or st.session_state.rol != "cliente":
-    st.error("⚠️ Acceso denegado. Esta sección es exclusiva para clientes.")
+if "rol" not in st.session_state or st.session_state.rol != "empleado":
+    st.error("⚠️ Acceso denegado. Esta sección es exclusiva para empleados.")
     if st.button("Ir a la Página de Inicio", use_container_width=True):
-        st.switch_page("src/pages/inicio.py")
+        st.switch_page("src/inicio.py")
     st.stop() # <-- Detiene todo el código de abajo para que no puedan ver nada
 
 # --- BOTÓN VOLVER ---
 if st.button("⬅️ Volver al Inicio"):
-    st.switch_page("pages/3_clientes.py")
+    st.switch_page("src/inicio.py")
 
 st.title("FinnBot IA — Banco Serfinanza 🤖")
 
