@@ -11,6 +11,7 @@ _TXN_PATH = Path(__file__).parent / "transactions.json"
 _TIPOS_GASTO = {"compra", "pago"}
 
 
+
 def _fmt(amount: float) -> str:
     return "$" + f"{amount:,.0f}".replace(",", ".")
 

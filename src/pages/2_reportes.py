@@ -14,6 +14,7 @@ st.write("Bienvenido al módulo avanzado de análisis. Aquí podrás filtrar tus
 
 st.divider()
 
+
 # Simulador de un área de descargas profesional
 st.subheader("⚡ Acciones Rápidas")
 col1, col2 = st.columns(2)

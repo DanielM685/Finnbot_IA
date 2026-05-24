@@ -25,6 +25,7 @@ def cargar_datos():
         df["fecha"] = pd.Timestamp.now()
     return df
 
+
 try:
     df_datos = cargar_datos()
     datos_cargados = True

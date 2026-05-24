@@ -46,6 +46,7 @@ for mensaje in st.session_state.historial:
     with st.chat_message(mensaje["role"]):
         st.write(mensaje["content"])
 
+
 # --- ENTRADA DEL USUARIO ---
 if prompt := st.chat_input("Escribe tu mensaje aquí..."):
     # Mostrar mensaje del usuario

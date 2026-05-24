@@ -7,6 +7,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from agent        import ask_agent, _get_nombre
 from user_context import load_context
 
+
 # ── Bienvenida ────────────────────────────────────────────────────
 def _mostrar_alertas():
     ctx     = load_context()
