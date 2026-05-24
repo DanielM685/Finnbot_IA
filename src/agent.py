@@ -31,7 +31,7 @@ load_dotenv()
 
 # ── LLM ──────────────────────────────────────────────────────────
 llm = ChatGroq(
-    model="llama-3.1-8b-instant",
+    model="llama-3.3-70b-versatile",
     api_key=os.getenv("GROQ_API_KEY"),
     temperature=0.7,
     max_tokens=1024,  # suficiente para respuestas completas
@@ -93,9 +93,13 @@ def _get_nombre() -> str:
     except Exception:
         return "cliente"
 
-
+def _set_rutas(ctx_path: str = None, txn_path: str = None):
+    _txn_mod._TXN_PATH = Path(txn_path) if txn_path else DATA_DIR / "transactions.json"
+    _ctx_mod._CTX_PATH = Path(ctx_path) if ctx_path else DATA_DIR / "user_context.json"
+    
 # ── Función principal ─────────────────────────────────────────────
-def ask_agent(user_message: str, history: list) -> str:
+def ask_agent(user_message: str, history: list, ctx_path: str = None, txn_path: str = None) -> str:
+    _set_rutas(ctx_path, txn_path)
     user_info    = get_user_context()
     txn_resumen  = get_txn_context()           # resumen últimos 30 días
     txn_completo = _get_txn_context_completo() # historial completo para búsquedas

@@ -31,7 +31,7 @@ load_dotenv()
 
 # ── LLM ──────────────────────────────────────────────────────────
 llm = ChatGroq(
-    model="llama-3.1-8b-instant",
+    model="llama-3.3-70b-versatile",
     api_key=os.getenv("GROQ_API_KEY"),
     temperature=0.85,  # un poco más creativo para tono amigable
     max_tokens=1024,
@@ -106,8 +106,13 @@ def _get_nombre() -> str:
         return "amigo"
 
 
+def _set_rutas(ctx_path: str = None, txn_path: str = None):
+    _txn_mod._TXN_PATH = Path(txn_path) if txn_path else DATA_DIR / "transactions.json"
+    _ctx_mod._CTX_PATH = Path(ctx_path) if ctx_path else DATA_DIR / "user_context.json"
+    
 # ── Función principal ─────────────────────────────────────────────
-def ask_savings_agent(user_message: str, history: list) -> str:
+def ask_savings_agent(user_message: str, history: list, ctx_path: str = None, txn_path: str = None) -> str:
+    _set_rutas(ctx_path, txn_path)  
     """
     Agente de plan de ahorro: tono amigable, enfocado en hábitos y metas.
     Solo menciona productos de Serfinanza si el usuario los pide explícitamente.

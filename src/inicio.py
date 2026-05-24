@@ -11,32 +11,113 @@ st.set_page_config(
 # ── Estilos ───────────────────────────────────────────────────────
 st.markdown("""
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+
+/* Fondo general */
+[data-testid="stAppViewContainer"] { background: #0B1120 !important; }
+[data-testid="stHeader"] { background: #0B1120 !important; border-bottom: 1px solid #2a3a52; }
+[data-testid="block-container"] { background: #0B1120; padding: 3rem 2rem; }
+
+/* Tipografía base */
+html, body, [class*="css"] { font-family: 'DM Sans', sans-serif !important; color: #E8EDF5 !important; }
+
+/* Títulos custom */
 .big-title {
-    font-size: 45px !important;
-    font-weight: 700;
+    font-family: 'Syne', sans-serif !important;
+    font-size: 2.6rem !important;
+    font-weight: 800 !important;
     text-align: center;
+    color: #E8EDF5 !important;
     margin-bottom: 10px;
+    letter-spacing: -0.5px;
 }
 .subtitle {
-    font-size: 20px !important;
+    font-size: 16px !important;
     text-align: center;
-    color: #888888;
+    color: #7A90AA !important;
     margin-bottom: 40px;
+    font-family: 'DM Sans', sans-serif !important;
 }
+
+/* Tarjetas de rol */
+[data-testid="stVerticalBlockBorderWrapper"] {
+    background: #111827 !important;
+    border: 1px solid #2a3a52 !important;
+    border-radius: 12px !important;
+    transition: border-color 0.2s !important;
+}
+[data-testid="stVerticalBlockBorderWrapper"]:hover {
+    border-color: #C8A96E !important;
+}
+
+/* Texto dentro de las tarjetas */
+[data-testid="stVerticalBlockBorderWrapper"] p {
+    color: #7A90AA !important;
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+}
+[data-testid="stVerticalBlockBorderWrapper"] h3 {
+    font-family: 'Syne', sans-serif !important;
+    color: #E8EDF5 !important;
+    font-size: 1.1rem !important;
+}
+
+/* Botón primario (Cliente) */
+.stButton > button[kind="primary"] {
+    background: transparent !important;
+    border: 1px solid #C8A96E !important;
+    color: #C8A96E !important;
+    font-family: 'Syne', sans-serif !important;
+    font-size: 11px !important;
+    letter-spacing: 1.5px !important;
+    text-transform: uppercase !important;
+    border-radius: 3px !important;
+    padding: 10px !important;
+    transition: all 0.2s !important;
+}
+.stButton > button[kind="primary"]:hover {
+    background: #C8A96E !important;
+    color: #0B1120 !important;
+}
+
+/* Botón secundario (Empleado / Volver) */
+.stButton > button[kind="secondary"] {
+    background: transparent !important;
+    border: 1px solid #2a3a52 !important;
+    color: #7A90AA !important;
+    font-family: 'Syne', sans-serif !important;
+    font-size: 11px !important;
+    letter-spacing: 1.5px !important;
+    text-transform: uppercase !important;
+    border-radius: 3px !important;
+    padding: 10px !important;
+    transition: all 0.2s !important;
+}
+.stButton > button[kind="secondary"]:hover {
+    border-color: #818CF8 !important;
+    color: #818CF8 !important;
+}
+
+/* Tarjetas de usuario demo */
 .user-card {
-    background: #f8fafc;
-    border: 2px solid #e2e8f0;
-    border-radius: 14px;
+    background: #111827;
+    border: 1px solid #2a3a52;
+    border-radius: 10px;
     padding: 20px;
     text-align: center;
-    transition: border-color 0.2s;
-    cursor: pointer;
     margin-bottom: 8px;
+    transition: border-color 0.2s;
 }
-.user-card:hover { border-color: #3b82f6; }
-.user-emoji  { font-size: 40px; margin-bottom: 6px; }
-.user-name   { font-weight: 700; font-size: 15px; color: #0f172a; }
-.user-desc   { font-size: 13px; color: #64748b; margin-top: 2px; }
+.user-card:hover { border-color: #C8A96E; }
+.user-emoji { font-size: 38px; margin-bottom: 8px; }
+.user-name  { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; color: #E8EDF5; }
+.user-desc  { font-size: 12.5px; color: #7A90AA; margin-top: 4px; line-height: 1.4; }
+
+/* Divider */
+hr { border-color: #2a3a52 !important; }
+
+/* Caption */
+[data-testid="stCaptionContainer"] { color: #4A5F78 !important; text-align: center; font-size: 12px !important; }
 </style>
 """, unsafe_allow_html=True)
 
