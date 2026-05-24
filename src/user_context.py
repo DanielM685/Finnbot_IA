@@ -196,17 +196,37 @@ def get_context_for_prompt() -> str:
     if not nombre:
         return ""
 
-    u       = ctx["usuario"]
-    resumen = ctx["resumen_financiero"]
+    u         = ctx["usuario"]
+    resumen   = ctx["resumen_financiero"]
     productos = ctx["productos_activos"]
-
-    productos_lista = ", ".join(
-        f"{p['nombre']} ({p['tipo']}, {_fmt(p['saldo_actual'])})"
-        for p in productos
-    )
 
     ingreso_txt = _fmt(u.get("ingresos_mensuales", 0))
     indicador   = resumen.get("indicador_salud_financiera", "")
+
+    productos_detalle = []
+    for p in productos:
+        tipo  = p["tipo"]
+        linea = f"- {p['nombre']} (tipo: {tipo})"
+        linea += f" | saldo actual (deuda/saldo usado): {_fmt(p['saldo_actual'])}"
+
+        if tipo == "tarjeta":
+            cupo      = float(p.get("cupo_total", 0))
+            saldo     = float(p.get("saldo_actual", 0))
+            disponible = cupo - saldo
+            linea += f" | cupo total: {_fmt(cupo)} | cupo disponible: {_fmt(disponible)}"
+        elif tipo == "credito":
+            linea += f" | cuotas pagadas: {p.get('cuotas_pagadas',0)} de {p.get('cuotas_totales',0)}"
+        elif tipo in ("cdt", "ahorro"):
+            linea += f" | tasa E.A.: {p.get('tasa_ea',0)}%"
+            if p.get("fecha_vencimiento"):
+                linea += f" | vence: {p['fecha_vencimiento']}"
+
+        if p.get("cuota_mensual", 0) > 0:
+            linea += f" | cuota mensual: {_fmt(p['cuota_mensual'])}"
+
+        productos_detalle.append(linea)
+
+    productos_txt = "\n".join(productos_detalle) if productos_detalle else "ninguno"
 
     return (
         "PERFIL DEL USUARIO:\n"
@@ -215,10 +235,9 @@ def get_context_for_prompt() -> str:
         f"Deudas totales: {_fmt(resumen['total_deudas'])} | "
         f"Ahorros e inversiones: {_fmt(resumen['total_ahorros_e_inversiones'])} | "
         f"Cuota mensual: {_fmt(resumen['cuota_mensual_total'])} | "
-        f"Salud financiera: {indicador}\n"
-        f"Productos activos ({len(productos)}): {productos_lista or 'ninguno'}"
+        f"Salud financiera: {indicador}\n\n"
+        f"PRODUCTOS ACTIVOS ({len(productos)}):\n{productos_txt}"
     )
-
 
 # ─── 7. clear_context ────────────────────────────────────────────
 

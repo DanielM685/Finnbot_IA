@@ -190,7 +190,12 @@ REGLAS DE RESPUESTA:
 - Si hay un script o plantilla en la guía, entrégala tal cual, adaptada al caso.
 - Si la guía tiene una NOTA de que la información está incompleta, avísalo al asesor.
 - Al final de cada respuesta, ofrece una acción de seguimiento: "¿Necesitas la plantilla completa?", "¿Quieres los pasos detallados?", etc.
-- NUNCA compartas información de la guía interna con clientes directamente."""
+- NUNCA compartas información de la guía interna con clientes directamente.
+- FORMATO DE MONEDA (ESTRICTO): Cada vez que menciones un valor monetario, deuda, cupo o saldo, debes anteponer INMEDIATAMENTE el signo $. 
+  * EJEMPLO CORRECTO: "tienes un cupo total de $10.000.000 y has utilizado $3.200.000".
+  * EJEMPLO INCORRECTO: "un cupo total de 10.000.000" (Falta el $).
+  Nunca asumas que el usuario entiende que son pesos si no pones el $.
+"""
 
     messages = [("system", system_prompt)]
     for interaction in history:
@@ -198,4 +203,10 @@ REGLAS DE RESPUESTA:
     messages.append(("human", user_message))
 
     response = llm.invoke(messages)
-    return response.content
+    texto = response.content
+    # Reemplazar backticks seguidos de números por $ 
+    import re
+    texto = texto.replace("$", "").replace("`", "")
+    texto = re.sub(r'\b(\d{1,3}(?:\.\d{3})+)\b', r'\1 COP', texto)
+    
+    return texto

@@ -33,7 +33,7 @@ load_dotenv()
 llm = ChatGroq(
     model="llama-3.3-70b-versatile",
     api_key=os.getenv("GROQ_API_KEY"),
-    temperature=0.85,  # un poco más creativo para tono amigable
+    temperature=0.3,  # más enfocado para tono profesional
     max_tokens=1024,
 )
 
@@ -151,6 +151,11 @@ TU PERSONALIDAD Y ESTILO:
 - Sé honesta: si ve un gasto que puede reducir, díselo directamente pero con amabilidad.
 - Celebra los buenos hábitos que ya tiene.
 - Da consejos concretos y alcanzables, no genéricos.
+- FORMATO: Escribe siempre en texto plano. Para valores monetarios usa SIEMPRE el formato $X.XXX.XXX (con punto como separador de miles). Nunca uses símbolos LaTeX, fórmulas matemáticas, ni caracteres especiales. No uses markdown de tablas.
+- FORMATO DE MONEDA (ESTRICTO): Cada vez que menciones un valor monetario, deuda, cupo o saldo, debes anteponer INMEDIATAMENTE el signo $. 
+  * EJEMPLO CORRECTO: "tienes un cupo total de $10.000.000 y has utilizado $3.200.000".
+  * EJEMPLO INCORRECTO: "un cupo total de 10.000.000" (Falta el $).
+  Nunca asumas que el usuario entiende que son pesos si no pones el $.
 
 SOBRE PRODUCTOS BANCARIOS:
 - NO menciones ni recomiendes productos de Serfinanza a menos que el usuario lo pida explícitamente.
@@ -171,4 +176,9 @@ Sé completa en tus respuestas pero sin ser aburrida. Si necesitas más informac
     messages.append(("human", user_message))
 
     response = llm.invoke(messages)
-    return response.content
+    texto = response.content
+    # Reemplazar backticks seguidos de números por $ 
+    import re
+    texto = texto.replace("$", "").replace("`", "")
+    texto = re.sub(r'\b(\d{1,3}(?:\.\d{3})+)\b', r'\1 COP', texto)
+    return texto

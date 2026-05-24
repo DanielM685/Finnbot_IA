@@ -12,7 +12,7 @@ st.set_page_config(
 if "rol" not in st.session_state or st.session_state.rol != "cliente":
     st.error("Acceso denegado. Esta sección es exclusiva para clientes.")
     if st.button("Ir a la Página de Inicio", use_container_width=True):
-        st.switch_page("src/pages/inicio.py")
+        st.switch_page("../src/inicio.py")
     st.stop()
 
 # ── Rutas dinámicas desde session_state ──────────────────────────

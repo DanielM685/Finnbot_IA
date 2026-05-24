@@ -130,12 +130,12 @@ hr { border-color: #2a3a52 !important; }
 if "rol" not in st.session_state or st.session_state.rol != "empleado":
     st.error("⚠️ Acceso denegado. Esta sección es exclusiva para empleados.")
     if st.button("Ir a la Página de Inicio", use_container_width=True):
-        st.switch_page("src/inicio.py")
+        st.switch_page("../src/inicio.py")
     st.stop() # <-- Detiene todo el código de abajo para que no puedan ver nada
 
 # --- BOTÓN VOLVER ---
 if st.button("⬅️ Volver al Inicio"):
-    st.switch_page("src/inicio.py")
+    st.switch_page("../src/inicio.py")
 
 st.title("FinnBot IA — Banco Serfinanza 🤖")
 

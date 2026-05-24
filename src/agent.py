@@ -33,7 +33,7 @@ load_dotenv()
 llm = ChatGroq(
     model="llama-3.3-70b-versatile",
     api_key=os.getenv("GROQ_API_KEY"),
-    temperature=0.7,
+    temperature=0.3,
     max_tokens=1024,  # suficiente para respuestas completas
 )
 
@@ -123,10 +123,15 @@ CATÁLOGO DE PRODUCTOS SERFINANZA (referencia interna):
 INSTRUCCIONES GENERALES:
 - Usa el nombre del cliente de forma natural pero sin exagerar.
 - Responde SIEMPRE con la información EXACTA disponible en los datos. Nunca digas que no tienes un dato si aparece en los datos.
+- Para tarjetas de crédito: saldo_actual = deuda actual usada, cupo_total = límite máximo. El cupo DISPONIBLE se calcula como cupo_total - saldo_actual. Nunca confundas saldo_actual con cupo_total.
 - Para buscar transacciones: usa el HISTORIAL COMPLETO por ID, comercio, categoría o período.
 - Si hay alertas activas relacionadas con la pregunta, menciónalas primero.
 - Si genuinamente no tienes el dato, sugiere llamar al 01 8000 123 456.
-
+- FORMATO: Escribe siempre en texto plano. Para valores monetarios usa SIEMPRE el formato $X.XXX.XXX (con punto como separador de miles). Nunca uses símbolos LaTeX, fórmulas matemáticas, ni caracteres especiales. No uses markdown de tablas.
+- FORMATO DE MONEDA (ESTRICTO): Cada vez que menciones un valor monetario, deuda, cupo o saldo, debes anteponer INMEDIATAMENTE el signo $. 
+  * EJEMPLO CORRECTO: "tienes un cupo total de $10.000.000 y has utilizado $3.200.000".
+  * EJEMPLO INCORRECTO: "un cupo total de 10.000.000" (Falta el $).
+  Nunca asumas que el usuario entiende que son pesos si no pones el $.
 ESTILO DE RESPUESTA — MUY IMPORTANTE:
 - Sé BREVE por defecto. Da lo mínimo necesario y ofrece profundizar.
 - Si listas varios items (tarjetas, productos, transacciones), menciona SOLO los nombres o un resumen de una línea por item. Luego pregunta: "¿Quieres saber más sobre alguno?"
@@ -145,5 +150,10 @@ PREGUNTAS INICIALES:
     messages.append(("human", user_message))
 
     response = llm.invoke(messages)
-    return response.content
+    texto = response.content
+    # Reemplazar backticks seguidos de números por $ 
+    import re
+    texto = texto.replace("$", "").replace("`", "")
+    texto = re.sub(r'\b(\d{1,3}(?:\.\d{3})+)\b', r'\1 COP', texto)
+    return texto
 
