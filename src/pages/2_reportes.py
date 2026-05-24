@@ -1,34 +1,56 @@
 import streamlit as st
+import sys
+from pathlib import Path
 
-st.set_page_config(
-    page_title="Centro de Reportes - Finn",
-    layout="wide"
-)
+# Asegurar que src/ está en el path
+sys.path.insert(0, str(Path(__file__).parent))
 
-# Botón limpio para regresar al home de la aplicación principal
-if st.button("⬅️ Volver al Panel Principal"):
+from savings_agent import ask_savings_agent, _get_nombre
+from user_context import load_context
+
+st.set_page_config(page_title="Nova - Banco Serfinanza", layout="wide")
+
+# --- BOTÓN VOLVER ---
+if st.button("⬅️ Volver al Inicio"):
     st.switch_page("pagina.py")
 
-st.title("📂 Centro de Reportes y Descargas")
-st.write("Bienvenido al módulo avanzado de análisis. Aquí podrás filtrar tus datos y descargar tus reportes.")
+st.title("Nova IA — Banco Serfinanza 🤖")
 
-st.divider()
+# --- INICIALIZAR ESTADO ---
+nombre = _get_nombre()
+
+if "historial" not in st.session_state:
+    st.session_state.historial = [
+        {
+            "role": "assistant",
+            "content": f"¡Hola, {nombre}! Soy Nova, tu asesor virtual de Banco Serfinanza 👋 ¿En qué te puedo ayudar hoy?"
+        }
+    ]
+
+if "history" not in st.session_state:
+    st.session_state.history = []  # formato LangChain: [("human", ...), ("ai", ...)]
+
+# --- MOSTRAR HISTORIAL ---
+for mensaje in st.session_state.historial:
+    with st.chat_message(mensaje["role"]):
+        st.write(mensaje["content"])
 
 
-# Simulador de un área de descargas profesional
-st.subheader("⚡ Acciones Rápidas")
-col1, col2 = st.columns(2)
+# --- ENTRADA DEL USUARIO ---
+if prompt := st.chat_input("Escribe tu mensaje aquí..."):
+    # Mostrar mensaje del usuario
+    with st.chat_message("user"):
+        st.write(prompt)
+    st.session_state.historial.append({"role": "user", "content": prompt})
 
-with col1:
-    with st.container(border=True):
-        st.write("### 📄 Exportar Historial en PDF")
-        st.write("Genera un documento estético con gráficos y tablas listo para imprimir.")
-        if st.button("Descargar PDF", use_container_width=True, type="primary"):
-            st.info("Generando reporte PDF... (Función de prueba)")
+    # Llamar al agente con el historial LangChain
+    with st.chat_message("assistant"):
+        with st.spinner("Nova está pensando..."):
+            respuesta = ask_savings_agent(prompt, st.session_state.history)
+        st.write(respuesta)
 
-with col2:
-    with st.container(border=True):
-        st.write("### 📊 Descargar Datos limpios (CSV)")
-        st.write("Obtén un archivo plano compatible con Microsoft Excel o Google Sheets.")
-        if st.button("Descargar CSV", use_container_width=True):
-            st.info("Preparando archivo CSV... (Función de prueba)")
+    st.session_state.historial.append({"role": "assistant", "content": respuesta})
+
+    # Actualizar historial LangChain para la próxima llamada
+    st.session_state.history.append(("human", prompt))
+    st.session_state.history.append(("ai", respuesta))
