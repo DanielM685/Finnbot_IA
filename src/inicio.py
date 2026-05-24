@@ -47,7 +47,7 @@ with col_cliente:
         # Botón para Cliente (Guarda el rol de Cliente antes de cambiar)
         if st.button("Ingresar como Cliente", use_container_width=True, type="primary"):
             st.session_state.rol = "cliente" # <-- GUARDAMOS EL ROL
-            st.switch_page("pages/1_chatbot.py")
+            st.switch_page("pages/3_clientes.py")
 
 with col_empleado:
     with st.container(border=True):

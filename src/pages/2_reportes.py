@@ -19,7 +19,7 @@ if "rol" not in st.session_state or st.session_state.rol != "cliente":
 
 # --- BOTÓN VOLVER ---
 if st.button("⬅️ Volver al Inicio"):
-    st.switch_page("3_clientes.py")
+    st.switch_page("pages/3_clientes.py")
 
 st.title("Nova IA — Banco Serfinanza 🤖")
 
