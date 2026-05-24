@@ -1,0 +1,78 @@
+{
+  "usuario": {
+    "nombre": "Valentina Torres Ospina",
+    "cedula": "1144567890",
+    "edad": 29,
+    "ciudad": "Cali",
+    "ocupacion": "Emprendedora - Tienda de ropa online",
+    "ingresos_mensuales": 5500000,
+    "antiguedad_cliente_años": 2,
+    "perfil_riesgo": "moderado"
+  },
+  "productos_activos": [
+    {
+      "id": "PROD-TC-003",
+      "tipo": "tarjeta",
+      "nombre": "Tarjeta Platinum Serfinanza",
+      "saldo_actual": 4800000,
+      "cupo_total": 15000000,
+      "cuota_mensual": 240000,
+      "fecha_apertura": "2024-09-01",
+      "fecha_vencimiento": "2028-09-01",
+      "cuotas_pagadas": 0,
+      "cuotas_totales": 0,
+      "tasa_ea": 22.00,
+      "estado": "activo"
+    },
+    {
+      "id": "PROD-CL-003",
+      "tipo": "credito",
+      "nombre": "Crédito Libre Inversión",
+      "saldo_actual": 6200000,
+      "cupo_total": 10000000,
+      "cuota_mensual": 310000,
+      "fecha_apertura": "2025-03-10",
+      "fecha_vencimiento": "2027-03-10",
+      "cuotas_pagadas": 10,
+      "cuotas_totales": 24,
+      "tasa_ea": 22.00,
+      "estado": "activo"
+    },
+    {
+      "id": "PROD-PA-001",
+      "tipo": "ahorro",
+      "nombre": "Plan de Ahorro Serfinanza",
+      "saldo_actual": 1200000,
+      "cupo_total": 0,
+      "cuota_mensual": 0,
+      "fecha_apertura": "2026-01-01",
+      "fecha_vencimiento": "2026-12-31",
+      "cuotas_pagadas": 0,
+      "cuotas_totales": 0,
+      "tasa_ea": 5.50,
+      "estado": "activo"
+    }
+  ],
+  "resumen_financiero": {
+    "total_deudas": 11000000,
+    "total_ahorros_e_inversiones": 1200000,
+    "cuota_mensual_total": 550000,
+    "capacidad_endeudamiento_restante": 1100000,
+    "indicador_salud_financiera": "saludable"
+  },
+  "alertas": [
+    {
+      "tipo": "advertencia",
+      "mensaje": "Tu Tarjeta Platinum tiene un saldo de $4.800.000 con fecha límite de pago el 8 de junio. Pago mínimo: $240.000. Evita intereses pagando antes de esa fecha.",
+      "producto_relacionado": "Tarjeta Platinum Serfinanza",
+      "fecha": "2026-05-23"
+    },
+    {
+      "tipo": "info",
+      "mensaje": "Tu Plan de Ahorro lleva $1.200.000 acumulados. ¡Vas al 40% de tu meta anual de $3.000.000! Mantén el ritmo de aportes mensuales.",
+      "producto_relacionado": "Plan de Ahorro Serfinanza",
+      "fecha": "2026-05-23"
+    }
+  ],
+  "ultima_actualizacion": "2026-05-23T00:00:00"
+}

@@ -1,0 +1,709 @@
+{
+  "version": "1.0",
+  "fecha_actualizacion": "2026-05-23",
+  "fuentes": [
+    "01_tarjeta_credito_beneficios.pdf",
+    "02_actualizacion_datos_procesos.pdf",
+    "03_cdt_caracteristicas_beneficios.pdf",
+    "04_registro_app_serfinanza.pdf",
+    "05_extracto_credito_canales.pdf",
+    "Reto2_Adquisicion_Digital_Serfinanza_FINAL.pptx"
+  ],
+  "total": 18,
+  "entradas": [
+    {
+      "id": "proc_001",
+      "categoria": "proceso",
+      "titulo": "Cómo explicar y radicar un CDT presencial",
+      "descripcion": "Guía paso a paso para que el asesor explique el CDT al cliente y lo radique en sucursal física.",
+      "palabras_clave": ["CDT", "certificado deposito", "inversion", "sucursal", "presencial", "radicar", "constituir", "plazo"],
+      "fuente_pdf": "03_cdt_caracteristicas_beneficios.pdf",
+      "seccion_fuente": "Secciones 2, 3, 5 y 6.3",
+      "contenido": {
+        "contexto_asesor": "El proceso en sucursal dura aproximadamente 15-20 minutos. Tener la tabla de tasas visible antes de atender al cliente.",
+        "datos_del_producto": {
+          "monto_minimo": "$500.000",
+          "monto_maximo": "Sin límite",
+          "plazos_disponibles": ["30 días", "60 días", "90 días", "120 días", "180 días", "360 días", "2 años", "3-5 años"],
+          "tasa_fija": "Pactada al inicio, no varía durante el plazo",
+          "tasas_vigentes_EA": {
+            "nota": "Tasas sujetas a cambio. Verificar vigencia antes de citar al cliente.",
+            "monto_menor_10M": {"30d": "7,50%", "60d": "8,00%", "90d": "8,50%", "180d": "9,20%", "360d": "10,00%", "2a": "10,50%", "3_5a": "11,00%"},
+            "monto_10M_a_50M": {"30d": "7,80%", "60d": "8,30%", "90d": "8,80%", "180d": "9,50%", "360d": "10,30%", "2a": "10,80%", "3_5a": "11,30%"},
+            "monto_mayor_50M": {"30d": "8,10%", "60d": "8,60%", "90d": "9,10%", "180d": "9,80%", "360d": "10,60%", "2a": "11,10%", "3_5a": "11,60%"}
+          },
+          "modalidades_pago_intereses": ["Al vencimiento (más común, máxima capitalización)", "Mensual", "Trimestral", "Semestral"],
+          "nota_pago_periodico": "La modalidad periódica puede aplicar tasa ligeramente menor al no capitalizar intereses.",
+          "formas_pago_en_sucursal": ["Efectivo", "Cheque", "Traslado desde cuenta Serfinanza"],
+          "documento_requerido": "Cédula de ciudadanía original"
+        },
+        "pasos_del_proceso": [
+          "Saludar al cliente y confirmar que desea constituir un CDT.",
+          "Preguntar: monto a invertir, plazo deseado y modalidad de cobro de intereses.",
+          "Consultar la tasa vigente según monto y plazo. Usar el simulador del sistema para calcular rendimientos.",
+          "Explicar los beneficios clave: tasa fija garantizada, Fogafín hasta $50.000.000, renovación automática disponible.",
+          "Si el cliente pregunta por retiro anticipado: informar que es posible con penalización sobre intereses (30% si cumplió más del 50% del plazo; 50% si cumplió menos del 50%). El capital nunca se afecta.",
+          "Solicitar la cédula de ciudadanía original.",
+          "Configurar en el sistema: monto, plazo, modalidad de pago de intereses y cuenta de desembolso.",
+          "Revisar con el cliente todos los datos antes de radicar.",
+          "Radicar el CDT. El proceso completo tarda aproximadamente 15-20 minutos.",
+          "Entregar el certificado físico o indicarle que puede descargarlo desde la App o el portal web."
+        ],
+        "puntos_de_venta_clave": [
+          "Tasa fija garantizada durante todo el plazo, sin exposición al mercado.",
+          "Fogafín protege hasta $50.000.000 por titular.",
+          "Sin cuota de manejo ni costos de administración.",
+          "Puede usarse como garantía (pignoración) para solicitar créditos a tasas preferenciales.",
+          "Renovación automática al vencimiento si el cliente no indica lo contrario."
+        ],
+        "ejemplo_rendimiento": {
+          "descripcion": "CDT $5.000.000 a 180 días, tasa E.A. 9,20%, pago al vencimiento",
+          "capital_invertido": "$5.000.000",
+          "intereses_brutos": "$218.630",
+          "retencion_en_fuente_7pct": "$15.304",
+          "intereses_netos": "$203.326",
+          "valor_total_al_vencimiento": "$5.203.326",
+          "nota": "Valores aproximados. La retención aplica según normativa vigente."
+        }
+      }
+    },
+    {
+      "id": "proc_002",
+      "categoria": "proceso",
+      "titulo": "Cómo gestionar un bloqueo de tarjeta de crédito",
+      "descripcion": "Protocolo del asesor para atender a un cliente que reporta pérdida, robo o necesidad de bloqueo de su tarjeta de crédito Serfinanza.",
+      "palabras_clave": ["bloqueo", "tarjeta", "perdida", "robo", "bloquear", "tarjeta credito"],
+      "fuente_pdf": "01_tarjeta_credito_beneficios.pdf",
+      "seccion_fuente": "Sección 6",
+      "contenido": {
+        "canales_de_bloqueo": [
+          {
+            "canal": "App Serfinanza",
+            "disponibilidad": "24/7",
+            "pasos": ["Abrir App", "Ir a 'Tarjetas'", "Seleccionar 'Bloquear tarjeta'", "Confirmar"],
+            "costo": "Sin costo",
+            "efectividad": "Instantáneo"
+          },
+          {
+            "canal": "WhatsApp",
+            "disponibilidad": "24/7 (bot)",
+            "instruccion": "Enviar el mensaje BLOQUEAR al número oficial de WhatsApp Serfinanza",
+            "costo": "Sin costo",
+            "efectividad": "Instantáneo"
+          },
+          {
+            "canal": "Call Center",
+            "telefono": "01 8000 123 456",
+            "disponibilidad": "Lunes a Sábado 7:00 a.m. – 9:00 p.m.",
+            "costo": "Sin costo",
+            "efectividad": "Instantáneo"
+          }
+        ],
+        "protocolo_asesor_en_sucursal": [
+          "Escuchar al cliente con calma y empatía.",
+          "Confirmar identidad con cédula.",
+          "Proceder al bloqueo desde el sistema interno.",
+          "Informar que el bloqueo es instantáneo y sin costo.",
+          "Preguntar si desea iniciar proceso de reposición de tarjeta.",
+          "Si hay transacciones sospechosas: orientar a radicar reclamación (plazo: máximo 30 días hábiles desde la transacción; el banco responde en máximo 15 días hábiles)."
+        ],
+        "proceso_reposicion": "No documentado en los PDFs disponibles.",
+        "es_placeholder_reposicion": true,
+        "nota_reposicion": "Completar con proceso interno de reposición de tarjeta: tiempos de entrega, costo de reposición y modalidades de envío."
+      }
+    },
+    {
+      "id": "proc_003",
+      "categoria": "proceso",
+      "titulo": "Cómo guiar al cliente en actualización de datos",
+      "descripcion": "Protocolo para orientar al cliente en la actualización de datos personales, laborales o financieros según el tipo de dato y el canal más adecuado.",
+      "palabras_clave": ["actualizacion datos", "datos personales", "SARLAFT", "actualizar", "direccion", "telefono", "informacion laboral"],
+      "fuente_pdf": "02_actualizacion_datos_procesos.pdf",
+      "seccion_fuente": "Secciones 3 y 4",
+      "contenido": {
+        "tipos_de_datos_y_canales": [
+          {"tipo": "Teléfono / Correo / Dirección", "documentos": "Ninguno", "canales": ["App", "Web", "WhatsApp", "Call Center", "Sucursal"]},
+          {"tipo": "Información Laboral (empresa, cargo, ingresos)", "documentos": "Carta laboral o declaración de renta", "canales": ["Web*", "Call Center*", "Sucursal"], "nota": "* Requiere carga de documentos digitales"},
+          {"tipo": "Información Financiera (ingresos, activos, pasivos)", "documentos": "Extractos bancarios o declaración de renta", "canales": ["Web*", "Call Center*", "Sucursal"]},
+          {"tipo": "Cambio de cédula", "documentos": "Nueva cédula de ciudadanía original", "canales": ["Sucursal"]},
+          {"tipo": "Estado Civil", "documentos": "Registro civil de matrimonio o sentencia judicial", "canales": ["Sucursal"]},
+          {"tipo": "Declaración PEP", "documentos": "Declaración escrita firmada", "canales": ["Sucursal"]}
+        ],
+        "canales_detalle": [
+          {
+            "canal": "App Serfinanza",
+            "disponibilidad": "24/7",
+            "que_actualiza": ["Dirección", "Teléfono celular", "Correo electrónico"],
+            "pasos": [
+              "Ingresar a la App con usuario y contraseña.",
+              "Menú principal → 'Mi Perfil'.",
+              "Tocar 'Actualizar datos de contacto'.",
+              "Editar el campo deseado.",
+              "Confirmar con código OTP enviado al celular registrado.",
+              "El sistema actualiza de forma inmediata."
+            ],
+            "limitacion": "No disponible para actualizaciones que requieren validación documental."
+          },
+          {
+            "canal": "Portal Web (www.serfinanza.com)",
+            "disponibilidad": "24/7",
+            "ruta": "Banca en Línea → 'Mis Trámites'",
+            "que_actualiza": "Datos de contacto (inmediato) + formulario de actualización completa (requiere carga de documentos)",
+            "tiempo_respuesta": "Inmediato para datos básicos; máximo 3 días hábiles para trámites documentales"
+          },
+          {
+            "canal": "WhatsApp (+57 300 987 6543)",
+            "disponibilidad": "24/7 (bot)",
+            "que_actualiza": ["Dirección", "Correo electrónico", "Teléfono de contacto"],
+            "pasos": ["Enviar ACTUALIZAR", "El bot verifica identidad con cédula y fecha de nacimiento", "Seguir el flujo conversacional", "Para trámites complejos el bot redirige a asesor humano"]
+          },
+          {
+            "canal": "Call Center",
+            "telefonos": {"gratuito": "01 8000 123 456", "bogota": "(601) 321-0000"},
+            "horario": "Lunes a sábado 7:00 a.m. – 9:00 p.m.",
+            "que_actualiza": "Teléfono y correo (inmediato). Otros datos: genera ticket con respuesta en 1-2 días hábiles."
+          },
+          {
+            "canal": "Sucursales Físicas",
+            "cantidad": "45 sucursales a nivel nacional",
+            "que_actualiza": "TODAS las categorías, incluidas las que requieren documentos originales",
+            "tiempo_respuesta": "Mismo día para la mayoría. 3-5 días hábiles si requiere validación del área de cumplimiento.",
+            "instruccion": "Llevar cédula original + documentos según el tipo de actualización."
+          }
+        ],
+        "protocolo_asesor": [
+          "Identificar qué tipo de dato necesita actualizar el cliente.",
+          "Recomendar el canal más adecuado: App para datos básicos; sucursal para cambios con documentos.",
+          "Si el cliente está en sucursal: solicitar cédula y documentos, diligenciar el formulario junto con el cliente.",
+          "Informar el tiempo de respuesta según canal y tipo de actualización.",
+          "Recordar que el servicio es completamente gratuito en todos los canales."
+        ]
+      }
+    },
+    {
+      "id": "proc_004",
+      "categoria": "proceso",
+      "titulo": "Cómo ayudar al cliente a registrarse en la App Serfinanza",
+      "descripcion": "Guía para orientar al cliente en el registro y activación de la App Serfinanza desde su celular, incluyendo solución de problemas comunes.",
+      "palabras_clave": ["App", "registro", "activar", "aplicacion movil", "Serfinanza", "digital", "contrasena", "OTP", "banca movil"],
+      "fuente_pdf": "04_registro_app_serfinanza.pdf",
+      "seccion_fuente": "Secciones 3 y 5",
+      "contenido": {
+        "requisitos_previos": [
+          "Ser cliente activo con al menos un producto financiero vigente.",
+          "Tener número de celular registrado en el banco.",
+          "Tener correo electrónico activo registrado en el banco.",
+          "Dispositivo con iOS 14 o superior / Android 8.0 o superior.",
+          "Conexión a internet."
+        ],
+        "pasos_de_registro": [
+          {"paso": 1, "titulo": "Descargar la App", "instruccion": "Buscar 'Serfinanza' en App Store (iOS) o Google Play Store (Android). Verificar que el desarrollador sea 'Banco Serfinanza S.A.' con ícono naranja."},
+          {"paso": 2, "titulo": "Seleccionar Registrarme", "instruccion": "Tocar '¿Eres nuevo? Regístrate aquí' en la parte inferior de la pantalla de inicio."},
+          {"paso": 3, "titulo": "Ingresar número de cédula", "instruccion": "Escribir la cédula sin puntos ni espacios. El sistema verifica los productos activos."},
+          {"paso": 4, "titulo": "Verificación de identidad", "instruccion": "El sistema envía un OTP de 6 dígitos al celular registrado (válido 3 minutos) o al correo. Puede solicitar también preguntas de seguridad sobre los productos del cliente."},
+          {"paso": 5, "titulo": "Crear contraseña digital", "instruccion": "Crear contraseña de 6 dígitos numéricos. No usar secuencias fáciles (123456, fecha de nacimiento). NUNCA compartirla con nadie, ni con asesores del banco."},
+          {"paso": 6, "titulo": "Activar biometría (opcional)", "instruccion": "Si el dispositivo tiene huella dactilar o Face ID, la App ofrecerá activarlo. Se puede activar/desactivar desde Configuración > Seguridad."},
+          {"paso": 7, "titulo": "Registro completado", "instruccion": "El cliente entra al inicio de la App con el resumen de todos sus productos. Recibirá notificación de bienvenida en su correo."}
+        ],
+        "solucion_problemas_comunes": [
+          {"problema": "No recibe el OTP por SMS", "solucion": "Verificar que el número coincida con el registrado en el banco. Revisar que los SMS no estén bloqueados. Solicitar reenvío. Si persiste: Call Center 01 8000 123 456."},
+          {"problema": "El sistema dice que la cédula no existe", "solucion": "Datos no vinculados correctamente. Comunicarse con el Call Center o visitar sucursal."},
+          {"problema": "Olvidó la contraseña de la App", "solucion": "Tocar '¿Olvidaste tu clave?' en el inicio y recuperar por OTP. También puede restablecerse en sucursal."},
+          {"problema": "La App no funciona en el celular", "solucion": "Verificar versión del SO (mínimo iOS 14 o Android 8.0). Actualizar la App. Desinstalar y reinstalar."},
+          {"problema": "Bloqueado por intentos fallidos", "solucion": "Después de 5 intentos fallidos la App se bloquea por seguridad. Desbloqueo disponible por Call Center o en sucursal."}
+        ]
+      }
+    },
+    {
+      "id": "proc_005",
+      "categoria": "proceso",
+      "titulo": "Cómo explicar y entregar un extracto al cliente",
+      "descripcion": "Guía para explicar al cliente los tipos de extracto disponibles, cómo obtenerlos por cada canal y cómo leer la información que contienen.",
+      "palabras_clave": ["extracto", "estado de cuenta", "documento", "movimientos", "paz y salvo", "certificado deuda", "historial"],
+      "fuente_pdf": "05_extracto_credito_canales.pdf",
+      "seccion_fuente": "Secciones 3 y 4",
+      "contenido": {
+        "tipos_de_extracto": [
+          {"tipo": "Extracto de Tarjeta de Crédito", "productos": ["Clásica", "Gold", "Platinum"], "periodicidad": "Mensual (fecha de corte)"},
+          {"tipo": "Extracto de Crédito de Consumo", "productos": ["Libre inversión", "Vehículo", "Compra de cartera"], "periodicidad": "Mensual"},
+          {"tipo": "Extracto de Crédito Hipotecario", "productos": ["Vivienda VIS y No VIS", "Leasing habitacional"], "periodicidad": "Mensual"},
+          {"tipo": "Certificado de Deuda", "productos": ["Todos los créditos"], "periodicidad": "A solicitud del cliente"},
+          {"tipo": "Paz y Salvo", "productos": ["Crédito cancelado o al día"], "periodicidad": "A solicitud"},
+          {"tipo": "Historia de Crédito Serfinanza", "productos": ["Todos los productos vigentes y cancelados"], "periodicidad": "A solicitud"}
+        ],
+        "que_contiene_extracto_tarjeta": [
+          "Datos del titular y número de tarjeta enmascarado.",
+          "Período de facturación (fecha de corte anterior y actual).",
+          "Cupo total, disponible y utilizado.",
+          "Movimientos: compras nacionales/internacionales, avances, pagos.",
+          "Saldo total a pagar, pago mínimo y fecha límite de pago.",
+          "Intereses cobrados y tasa vigente.",
+          "Puntos Serfinanza acumulados y disponibles.",
+          "Cuotas diferidas vigentes y saldo pendiente."
+        ],
+        "que_contiene_extracto_credito_consumo": [
+          "Número de obligación y fecha de desembolso.",
+          "Monto original del crédito y saldo actual de capital.",
+          "Cuota mensual, intereses pagados y capital abonado.",
+          "Número de cuotas pagadas y pendientes.",
+          "Tasa de interés efectiva anual pactada.",
+          "Fecha de próxima cuota.",
+          "Seguros asociados (vida deudor, desempleo).",
+          "Saldo en mora e intereses de mora si aplica."
+        ],
+        "canales_para_obtener_extracto": [
+          {
+            "canal": "App Serfinanza",
+            "disponibilidad": "24/7",
+            "historial": "Hasta 24 meses",
+            "costo": "Gratuito",
+            "pasos": ["Seleccionar el producto en el inicio", "Tocar 'Documentos' o 'Extractos'", "Seleccionar mes y año", "Tocar 'Generar' → PDF descargado inmediatamente"],
+            "nota": "El extracto del mes en curso se actualiza diariamente con movimientos del día anterior."
+          },
+          {
+            "canal": "Portal Web (www.serfinanza.com)",
+            "disponibilidad": "24/7",
+            "historial": "Hasta 36 meses",
+            "costo": "Gratuito",
+            "ruta": "Mis Productos → crédito o tarjeta → Extractos y Documentos",
+            "formatos_disponibles": ["PDF", "Excel (movimientos)", "Envío por correo electrónico"]
+          },
+          {
+            "canal": "WhatsApp (+57 300 987 6543)",
+            "disponibilidad": "24/7 (bot)",
+            "historial": "Solo mes actual y mes anterior",
+            "costo": "Gratuito",
+            "pasos": ["Enviar EXTRACTO", "Seleccionar TARJETA o CRÉDITO", "Confirmar identidad con cédula", "Seleccionar mes"],
+            "nota": "El PDF de WhatsApp tiene la misma validez legal que el de la App o el portal."
+          },
+          {
+            "canal": "Correo Electrónico Automático",
+            "descripcion": "Al activar extracto digital, el banco lo envía automáticamente al correo registrado al día siguiente de la fecha de corte.",
+            "como_activar": "App: Configuración → Extracto digital. O en sucursal solicitando la activación."
+          },
+          {
+            "canal": "Call Center (01 8000 123 456)",
+            "descripcion": "El asesor lo envía al correo registrado en tiempo real."
+          },
+          {
+            "canal": "Sucursal Física",
+            "historial_gratis": "Últimos 12 meses sin costo",
+            "costo_adicional": "$3.000 por extracto a partir del número 13 del año",
+            "servicios_especiales": ["Certificado de deuda con fecha y sello oficial", "Paz y salvo: mismo día si información disponible, máximo 2 días hábiles"]
+          }
+        ],
+        "protocolo_asesor": [
+          "Preguntar qué tipo de extracto necesita el cliente y para qué lo va a usar.",
+          "Orientar al canal más conveniente: App o Web para agilidad; sucursal si necesita sello oficial.",
+          "Si el cliente no sabe cómo leer el extracto, explicar los campos clave: cupo utilizado, saldo a pagar, pago mínimo y fecha límite."
+        ]
+      }
+    },
+    {
+      "id": "caso_001",
+      "categoria": "caso_reto",
+      "titulo": "¿Cómo ingresar a Serfinanza Virtual Personas?",
+      "descripcion": "Respuesta y guía para el cliente que pregunta cómo acceder a la banca digital de Serfinanza por App móvil o portal web.",
+      "palabras_clave": ["Serfinanza Virtual", "banca en linea", "ingresar", "login", "App", "portal web", "acceder", "virtual personas"],
+      "fuente_pdf": "04_registro_app_serfinanza.pdf",
+      "seccion_fuente": "Secciones 2 y 3 (App) + referencias a portal web en PDFs 2 y 5",
+      "contenido": {
+        "canales_de_acceso_digital": [
+          {
+            "canal": "App Serfinanza (móvil)",
+            "sistemas": "iOS 14 o superior / Android 8.0 o superior",
+            "descarga": "App Store o Google Play. Buscar 'Serfinanza', desarrollador: Banco Serfinanza S.A., ícono naranja.",
+            "acceso_usuarios_registrados": "Abrir App → ingresar cédula + contraseña de 6 dígitos (o biometría si está activada).",
+            "usuarios_nuevos": "Seguir proceso de registro de 7 pasos (ver proc_004)."
+          },
+          {
+            "canal": "Portal Web – Banca en Línea",
+            "url": "www.serfinanza.com",
+            "ruta": "Sección 'Banca en Línea'",
+            "acceso": "Ingresar con el usuario y contraseña registrados."
+          }
+        ],
+        "respuesta_sugerida_al_cliente": "Para acceder a Serfinanza Virtual puede usar la App Serfinanza (descárguela gratis en App Store o Google Play) o ingresar al portal web en www.serfinanza.com en la sección Banca en Línea. Si aún no tiene usuario, lo ayudamos a registrarse ahora mismo: necesita su cédula, el celular que tiene registrado con el banco y conexión a internet.",
+        "si_cliente_olvido_clave": "En la App: tocar '¿Olvidaste tu clave?' y recuperar por OTP. También puede restablecerse en sucursal o llamando al Call Center 01 8000 123 456.",
+        "si_cliente_no_esta_registrado": "Remitir al proceso proc_004 (Registro en la App Serfinanza)."
+      }
+    },
+    {
+      "id": "caso_002",
+      "categoria": "caso_reto",
+      "titulo": "Radicación de plan de ahorro débito automático",
+      "descripcion": "Proceso para radicar o activar un plan de ahorro con débito automático para el cliente.",
+      "palabras_clave": ["plan de ahorro", "debito automatico", "ahorro programado", "radicar", "activar ahorro"],
+      "fuente_pdf": "Ninguno de los PDFs disponibles documenta este proceso específico.",
+      "seccion_fuente": "N/A",
+      "es_placeholder": true,
+      "nota": "Completar con el proceso interno de Serfinanza para radicación de plan de ahorro con débito automático: pasos en el sistema, requisitos del cliente, montos mínimos de aporte, frecuencias disponibles (mensual, quincenal, semanal), cuenta de débito origen, documentos requeridos y canales habilitados.",
+      "contenido": {
+        "descripcion_general": "El plan de ahorro con débito automático permite al cliente programar transferencias periódicas automáticas desde su cuenta corriente o de ahorros hacia un producto de inversión o ahorro.",
+        "canales_probables_por_app": "El módulo de Pagos e Inversiones de la App Serfinanza (descrito en PDF 04) puede soportar este producto, pero no se confirmó el flujo específico.",
+        "nota_fuente": "Información inferida del comportamiento general de la App. No confirmada para este producto."
+      }
+    },
+    {
+      "id": "caso_003",
+      "categoria": "caso_reto",
+      "titulo": "¿Cómo genero mi extracto y cómo lo leo?",
+      "descripcion": "Guía completa para orientar al cliente a generar su extracto y explicarle cómo interpretar la información.",
+      "palabras_clave": ["extracto", "generar", "leer", "interpretar", "estado de cuenta", "movimientos", "saldo", "cuota"],
+      "fuente_pdf": "05_extracto_credito_canales.pdf",
+      "seccion_fuente": "Secciones 3 y 4",
+      "contenido": {
+        "como_generar_por_app": ["Abrir App Serfinanza", "Seleccionar el producto (crédito o tarjeta) en el inicio", "Tocar 'Documentos' o 'Extractos'", "Seleccionar el mes y año (hasta 24 meses)", "Tocar 'Generar' → PDF descargado inmediatamente", "Compartir por WhatsApp, correo o guardar en el dispositivo"],
+        "como_generar_por_web": ["Ingresar a www.serfinanza.com → Banca en Línea", "Ir a 'Mis Productos' → seleccionar crédito o tarjeta", "Sección 'Extractos y Documentos'", "Filtrar por mes y año (hasta 36 meses)", "Descargar PDF, Excel o enviar por correo"],
+        "como_generar_por_whatsapp": ["Enviar EXTRACTO al +57 300 987 6543", "Seleccionar TARJETA o CRÉDITO", "Confirmar identidad con cédula", "PDF llega en menos de 1 minuto (solo mes actual o anterior)"],
+        "como_generar_en_sucursal": "Solicitar impresión. Gratis hasta 12 extractos al año; $3.000 por cada extracto adicional.",
+        "como_leer_extracto_tarjeta": {
+          "cupo_total_vs_disponible": "Cupo total = límite aprobado. Cupo disponible = lo que puede gastar. Cupo utilizado = lo consumido.",
+          "movimientos_del_periodo": "Lista de compras, avances y pagos del período de corte.",
+          "saldo_a_pagar": "Total de la deuda acumulada en el período.",
+          "pago_minimo": "5% del saldo total, mínimo $30.000. Pagar solo el mínimo genera intereses sobre el resto.",
+          "fecha_limite_pago": "15 días calendario después de la fecha de corte. Pagar el total antes de esa fecha evita intereses.",
+          "tasa_de_interes": "E.A. vigente aplicada al saldo (Clásica 26,22% / Gold 24,50% / Platinum 22,00%).",
+          "puntos_serfinanza": "Puntos acumulados y disponibles para redimir."
+        },
+        "como_leer_extracto_credito": {
+          "saldo_de_capital": "Monto original menos los pagos realizados a capital.",
+          "cuota_mensual": "Capital + intereses del período.",
+          "cuotas_pagadas_pendientes": "Indica el avance del crédito.",
+          "tasa_ea": "Tasa pactada al momento del desembolso, no varía.",
+          "proxima_cuota": "Fecha límite de pago del siguiente mes.",
+          "seguros": "Primas de seguro de vida deudor y/o desempleo."
+        }
+      }
+    },
+    {
+      "id": "caso_004",
+      "categoria": "caso_reto",
+      "titulo": "¿Por qué canal puedo hacer mi actualización de datos?",
+      "descripcion": "Orientación para el cliente sobre el canal correcto para actualizar sus datos según el tipo de información que necesita cambiar.",
+      "palabras_clave": ["actualizacion datos", "canal", "app", "web", "whatsapp", "call center", "sucursal", "donde", "informacion laboral"],
+      "fuente_pdf": "02_actualizacion_datos_procesos.pdf",
+      "seccion_fuente": "Secciones 3 y 4",
+      "contenido": {
+        "respuesta_rapida": "Depende del tipo de dato. Los datos de contacto (teléfono, correo, dirección) se pueden cambiar por App, Web, WhatsApp, Call Center o sucursal. Los cambios que requieren documentos (laboral, financiero, cédula, estado civil) solo en sucursal o con carga digital en Web o Call Center.",
+        "resumen_por_tipo_de_dato": [
+          {"tipo": "Teléfono / Correo / Dirección", "canales": ["App (inmediato)", "Web (inmediato)", "WhatsApp (inmediato)", "Call Center (inmediato)", "Sucursal (inmediato)"], "costo": "Gratuito"},
+          {"tipo": "Información Laboral", "canales": ["Web (carga doc., 3 días hábiles)", "Call Center (ticket, 1-2 días hábiles)", "Sucursal (mismo día o hasta 5 días hábiles)"], "documentos": "Carta laboral o declaración de renta"},
+          {"tipo": "Información Financiera", "canales": ["Web*", "Call Center*", "Sucursal"], "documentos": "Extractos bancarios o declaración de renta"},
+          {"tipo": "Cambio de cédula", "canales": ["Sucursal (único canal)"], "documentos": "Nueva cédula original"},
+          {"tipo": "Estado Civil", "canales": ["Sucursal (único canal)"], "documentos": "Registro civil o sentencia"},
+          {"tipo": "Declaración PEP", "canales": ["Sucursal (único canal)"], "documentos": "Declaración escrita firmada"}
+        ],
+        "recomendacion_asesor": "Para datos básicos: orientar a la App o WhatsApp por rapidez. Para documentos: sucursal o portal web con carga de documentos. El servicio es completamente gratuito en todos los canales."
+      }
+    },
+    {
+      "id": "caso_005",
+      "categoria": "caso_reto",
+      "titulo": "¿Qué beneficios tiene un SuperCDT?",
+      "descripcion": "Explicación de los beneficios del SuperCDT Serfinanza al cliente, basada en la documentación del CDT disponible más marcadores de información específica pendiente.",
+      "palabras_clave": ["SuperCDT", "CDT", "beneficios", "inversion", "rendimiento", "ahorro", "tasas"],
+      "fuente_pdf": "03_cdt_caracteristicas_beneficios.pdf",
+      "seccion_fuente": "Secciones 1, 2 y 5",
+      "es_placeholder": true,
+      "nota": "Completar con las condiciones específicas del SuperCDT: tasas diferenciales respecto al CDT estándar, montos mínimos propios, alianzas o beneficios adicionales (ej. con Olímpica u otras marcas), y cualquier condición exclusiva del producto. Los beneficios generales del CDT listados a continuación aplican como base.",
+      "contenido": {
+        "beneficios_confirmados_cdt_base": [
+          "Rentabilidad garantizada: tasa fija pactada desde el inicio, no varía durante el plazo.",
+          "Protección Fogafín: hasta $50.000.000 por titular.",
+          "Flexibilidad de plazos: desde 30 días hasta 5 años.",
+          "Sin cuota de manejo ni costos de administración.",
+          "Renovación automática al vencimiento sin trámite adicional.",
+          "Puede usarse como garantía (pignoración) para créditos a tasas preferenciales.",
+          "Beneficio tributario: los intereses son rentas de capital (posible deducción del 35% en renta).",
+          "Certificado electrónico descargable desde App o portal web.",
+          "Retiro anticipado disponible con penalización sobre intereses; el capital nunca se afecta."
+        ],
+        "tasas_referencia_cdt_estandar_EA": {
+          "nota": "Verificar si el SuperCDT aplica tasas diferenciales.",
+          "30d_menor10M": "7,50%",
+          "180d_menor10M": "9,20%",
+          "360d_menor10M": "10,00%"
+        },
+        "diferencial_supercdt": "Pendiente de documentar — ver campo nota de este registro."
+      }
+    },
+    {
+      "id": "script_001",
+      "categoria": "script_atencion",
+      "titulo": "Cómo explicar la diferencia entre CDT y Plan de Ahorro",
+      "descripcion": "Script para que el asesor explique las diferencias entre un CDT y un Plan de Ahorro a un cliente indeciso.",
+      "palabras_clave": ["CDT", "plan de ahorro", "diferencia", "inversion", "ahorro", "comparar", "cual es mejor"],
+      "fuente_pdf": "03_cdt_caracteristicas_beneficios.pdf (CDT). Plan de Ahorro: sin PDF disponible.",
+      "seccion_fuente": "CDT: Secciones 1, 2, 4 y 5",
+      "es_placeholder": true,
+      "nota": "Completar con: definición del Plan de Ahorro Serfinanza, monto mínimo de aporte, frecuencias (mensual, quincenal), tasas o rendimientos ofrecidos, nivel de liquidez, cobertura Fogafín y perfil de cliente ideal. Con esa información se completa la tabla comparativa.",
+      "contenido": {
+        "cdt_datos_reales": {
+          "definicion": "Inversión a plazo fijo. El cliente deposita un monto durante un período determinado y recibe capital + intereses al vencimiento o periódicamente.",
+          "monto_minimo": "$500.000",
+          "plazos": "30 días a 5 años",
+          "tasa_ejemplo": "9,20% E.A. a 180 días para montos menores a $10M",
+          "liquidez": "Limitada. Retiro anticipado con penalización de intereses (30% si cumplió más del 50% del plazo; 50% si cumplió menos). Capital nunca afectado.",
+          "proteccion_fogafin": "Hasta $50.000.000 por titular",
+          "ideal_para": "Clientes con capital disponible por un período definido que buscan máxima rentabilidad garantizada."
+        },
+        "plan_de_ahorro": "Información pendiente — ver campo nota de este registro.",
+        "script_apertura": "Señor/señora [nombre], los dos productos son excelentes opciones según su objetivo. El CDT le garantiza una tasa fija desde el primer día y es ideal si tiene un monto disponible que no necesitará por un tiempo. El Plan de Ahorro funciona mejor si prefiere ir acumulando poco a poco con más flexibilidad. ¿Me puede contar cuánto dinero tiene disponible y si lo necesitará pronto?"
+      }
+    },
+    {
+      "id": "script_002",
+      "categoria": "script_atencion",
+      "titulo": "Cómo presentar los tipos de Tarjeta de Crédito (Clásica, Gold, Platinum)",
+      "descripcion": "Script para que el asesor presente las tres modalidades de tarjeta y recomiende la más adecuada según el perfil del cliente.",
+      "palabras_clave": ["tarjeta credito", "Clasica", "Gold", "Platinum", "cupo", "tasa", "cuota manejo", "tipos tarjeta"],
+      "fuente_pdf": "01_tarjeta_credito_beneficios.pdf",
+      "seccion_fuente": "Secciones 2 y 3.5",
+      "contenido": {
+        "comparativa": [
+          {
+            "tipo": "Clásica",
+            "cupo_maximo": "Hasta $3.000.000",
+            "tasa_EA": "26,22%",
+            "cuota_manejo_mes": "$18.900",
+            "ideal_para": "Primeras tarjetas de crédito o perfiles con ingresos desde $800.000. Construir historial crediticio.",
+            "beneficios_destacados": ["1 pto Serfinanza por $1.000 en compras nacionales", "Seguro de vida hasta $20.000.000", "Protección de compras 90 días", "Chip EMV + contactless hasta $200.000"]
+          },
+          {
+            "tipo": "Gold",
+            "cupo_maximo": "Hasta $10.000.000",
+            "tasa_EA": "24,50%",
+            "cuota_manejo_mes": "$28.500",
+            "ideal_para": "Clientes con buen historial y mayor capacidad de gasto. Tasa más baja que la Clásica.",
+            "beneficios_destacados": ["Mismos beneficios base de la Clásica", "Mayor cupo", "Cuotas sin interés en más de 200 establecimientos aliados"]
+          },
+          {
+            "tipo": "Platinum",
+            "cupo_maximo": "Hasta $30.000.000",
+            "tasa_EA": "22,00%",
+            "cuota_manejo_mes": "$38.000",
+            "ideal_para": "Clientes premium, viajeros frecuentes o ejecutivos.",
+            "beneficios_exclusivos": [
+              "Acceso a sala VIP en Aeropuerto El Dorado (Bogotá) y José María Córdova (Medellín).",
+              "Seguro de viaje internacional: cobertura médica hasta USD $50.000.",
+              "Concierge 24/7: asistencia para reservas, eventos y trámites.",
+              "Protección de precio: devolución de diferencia si encuentra el mismo producto más barato.",
+              "Sin comisión adicional por conversión de moneda en compras internacionales.",
+              "1,5 puntos por $1.000 en compras internacionales."
+            ]
+          }
+        ],
+        "beneficios_comunes_todas": [
+          "Red Mastercard: aceptación en más de 90 millones de establecimientos.",
+          "Programa de puntos: 1 pto por $1.000 en compras nacionales (redimibles en millas, descuentos o abono a deuda).",
+          "Cuotas sin interés: 3, 6, 12 y hasta 24 cuotas en establecimientos aliados.",
+          "Avances en efectivo: hasta el 50% del cupo disponible (comisión 3%, mínimo $5.000).",
+          "Seguro de vida: hasta $20.000.000.",
+          "Protección de compras: cubre robo o daño accidental los primeros 90 días.",
+          "Chip EMV + contactless para pagos hasta $200.000 sin clave."
+        ],
+        "script": "Señor/señora [nombre], Serfinanza tiene tres tipos de tarjeta. La Clásica tiene cupo hasta $3 millones y cuota de $18.900 mensual, ideal si está empezando. La Gold llega hasta $10 millones con una tasa más baja. Y la Platinum tiene cupo hasta $30 millones, sala VIP en aeropuertos y seguro de viaje internacional. ¿Me cuenta un poco sobre sus hábitos de consumo para recomendarle la mejor opción?",
+        "nota_tasas": "Las tasas corresponden al máximo legal vigente certificado por la SFC. La tasa efectiva puede variar según el perfil del cliente."
+      }
+    },
+    {
+      "id": "script_003",
+      "categoria": "script_atencion",
+      "titulo": "Qué decir cuando un cliente no reconoce un cobro",
+      "descripcion": "Protocolo y script de atención cuando un cliente reporta un movimiento en su tarjeta de crédito que no reconoce.",
+      "palabras_clave": ["cobro no reconocido", "reclamacion", "fraude", "cargo", "movimiento", "no reconozco", "disputa"],
+      "fuente_pdf": "01_tarjeta_credito_beneficios.pdf",
+      "seccion_fuente": "Sección 6",
+      "contenido": {
+        "protocolo_asesor": [
+          "Escuchar al cliente con calma. No cuestionar su versión.",
+          "Pedir que identifique el movimiento: fecha, comercio y monto.",
+          "Verificar que está dentro del plazo de reclamación: máximo 30 días hábiles desde la transacción.",
+          "Informar que el banco investigará y responderá en máximo 15 días hábiles.",
+          "Radicar la reclamación por el canal donde esté atendiendo al cliente.",
+          "Sugerir bloquear la tarjeta si el cliente sospecha de clonación o robo de datos."
+        ],
+        "canales_para_radicar": [
+          "Call Center: 01 8000 123 456",
+          "App Serfinanza: Atención → Reclamaciones",
+          "Sucursal física: el asesor radica directamente"
+        ],
+        "tiempos_clave": {
+          "plazo_maximo_para_radicar": "30 días hábiles desde la fecha de la transacción",
+          "plazo_respuesta_banco": "Máximo 15 días hábiles desde la radicación"
+        },
+        "script": "Entiendo su inquietud y vamos a resolverlo. El cobro que menciona fue el [fecha] por [monto] en [comercio]. Voy a radicar una reclamación formal ahora mismo. El banco tiene máximo 15 días hábiles para investigar y darle respuesta. ¿Desea que bloqueemos la tarjeta mientras tanto para evitar movimientos adicionales no autorizados?",
+        "si_fuera_del_plazo": "Si el cliente llega después de los 30 días hábiles informar que el plazo de reclamación venció según la política del banco. Registrar como queja y escalar según protocolo interno.",
+        "es_placeholder_escalamiento": true,
+        "nota_escalamiento": "Completar con el protocolo interno de escalamiento para casos fuera de plazo o de alto valor."
+      }
+    },
+    {
+      "id": "script_004",
+      "categoria": "script_atencion",
+      "titulo": "Cómo explicar las opciones de pago de la tarjeta de crédito",
+      "descripcion": "Script para explicar claramente al cliente las 4 opciones de pago disponibles para su tarjeta de crédito Serfinanza y sus implicaciones.",
+      "palabras_clave": ["opciones de pago", "pago total", "pago minimo", "pago libre", "pago automatico", "tarjeta credito", "intereses", "cuota"],
+      "fuente_pdf": "01_tarjeta_credito_beneficios.pdf",
+      "seccion_fuente": "Sección 5.3",
+      "contenido": {
+        "fechas_clave": {
+          "fecha_de_corte": "El cliente puede elegir entre los días 1 al 25 de cada mes.",
+          "fecha_limite_pago": "15 días calendario después de la fecha de corte.",
+          "clave": "Pagar el total antes de la fecha límite evita el cobro de intereses corrientes."
+        },
+        "opciones": [
+          {
+            "opcion": "Pago Total",
+            "descripcion": "Cancela el total de la factura del período.",
+            "genera_intereses": false,
+            "recomendacion": "Siempre la mejor opción. Sin intereses, historial crediticio en buen estado."
+          },
+          {
+            "opcion": "Pago Mínimo",
+            "descripcion": "Pago del 5% del saldo total, mínimo $30.000.",
+            "genera_intereses": true,
+            "detalle": "Se cobran intereses sobre el saldo restante a la tasa vigente de la tarjeta.",
+            "recomendacion": "Solo para emergencias. A largo plazo encarece significativamente la deuda."
+          },
+          {
+            "opcion": "Pago Libre",
+            "descripcion": "Cualquier valor entre el mínimo y el total de la factura.",
+            "genera_intereses": true,
+            "detalle": "Intereses proporcionales sobre el saldo no cancelado.",
+            "recomendacion": "Útil cuando no se puede pagar el total. Reduce la deuda más rápido que el mínimo."
+          },
+          {
+            "opcion": "Pago Automático",
+            "descripcion": "Débito automático desde la cuenta de ahorros Serfinanza el día límite.",
+            "genera_intereses": false,
+            "condicion": "Requiere cuenta de ahorros Serfinanza con saldo suficiente el día del débito.",
+            "recomendacion": "Ideal para clientes que no quieren olvidar la fecha de pago. Se configura desde la App o en sucursal."
+          }
+        ],
+        "script": "Señor/señora [nombre], su tarjeta tiene cuatro formas de pago. Lo ideal siempre es el pago total antes de la fecha límite: así no paga intereses. Si no puede pagarlo todo, puede hacer un pago libre por cualquier monto mayor al mínimo. El pago mínimo es el 5% del saldo (mínimo $30.000), pero genera intereses sobre lo que queda. Y si prefiere no preocuparse por fechas, activamos el pago automático desde su cuenta de ahorros Serfinanza. ¿Cuál le conviene más?"
+      }
+    },
+    {
+      "id": "script_005",
+      "categoria": "script_atencion",
+      "titulo": "Qué decir cuando un cliente pregunta si sus ahorros están protegidos (Fogafín)",
+      "descripcion": "Script para responder con precisión sobre la protección de los depósitos del cliente por parte de Fogafín.",
+      "palabras_clave": ["Fogafin", "proteccion", "garantia", "ahorros protegidos", "seguro deposito", "quiebra banco", "seguridad dinero"],
+      "fuente_pdf": "03_cdt_caracteristicas_beneficios.pdf",
+      "seccion_fuente": "Sección 1",
+      "contenido": {
+        "que_es_fogafin": "El Fondo de Garantías de Instituciones Financieras (Fogafín) es la entidad estatal colombiana que protege los ahorros de los colombianos depositados en entidades financieras vigiladas por la SFC, en caso de que la entidad entre en liquidación.",
+        "cobertura_cdt_confirmada": {
+          "confirmado_en_pdf": true,
+          "cobertura": "Hasta $50.000.000 por titular",
+          "producto": "CDT Serfinanza",
+          "fuente": "PDF 03 - Sección 1"
+        },
+        "cobertura_cuentas_ahorro": {
+          "nota": "La cobertura Fogafín aplica por regulación a todos los depósitos en entidades vigiladas. El monto y condiciones específicas para Cuentas de Ahorro Serfinanza deben confirmarse con el área de productos.",
+          "es_placeholder": true,
+          "nota_interna": "Confirmar si la cobertura de $50.000.000 por titular aplica igual para Cuenta de Ahorro Serfinanza."
+        },
+        "script": "Sí, señor/señora [nombre], Banco Serfinanza está vigilado por la Superintendencia Financiera de Colombia y sus depósitos están respaldados por Fogafín. En el caso del CDT, la cobertura confirmada es hasta $50.000.000 por titular. Banco Serfinanza es una entidad sólida y regulada que trabaja para garantizar la seguridad de su dinero."
+      }
+    },
+    {
+      "id": "politica_001",
+      "categoria": "politica",
+      "titulo": "Tiempos de respuesta oficiales por tipo de solicitud",
+      "descripcion": "Tabla consolidada de tiempos de atención y respuesta de Banco Serfinanza según el tipo de trámite y el canal utilizado.",
+      "palabras_clave": ["tiempos respuesta", "cuanto demora", "plazos", "dias habiles", "SLA", "tiempo atencion"],
+      "fuente_pdf": "PDFs 01, 02 y 05 (secciones de preguntas frecuentes y descripción de canales)",
+      "seccion_fuente": "FAQs y secciones de canales de cada PDF",
+      "contenido": {
+        "tiempos": [
+          {"solicitud": "Actualización datos de contacto (teléfono, correo, dirección)", "canal": "App / Web / WhatsApp", "tiempo": "Inmediato", "fuente": "PDF 02 - Sec. 6"},
+          {"solicitud": "Actualización datos de contacto (teléfono, correo)", "canal": "Call Center", "tiempo": "Inmediato", "fuente": "PDF 02 - Sec. 3.4"},
+          {"solicitud": "Actualización información laboral o financiera (ticket)", "canal": "Call Center", "tiempo": "1 a 2 días hábiles", "fuente": "PDF 02 - Sec. 3.4"},
+          {"solicitud": "Actualización con carga de documentos digitales", "canal": "Portal Web", "tiempo": "Máximo 3 días hábiles", "fuente": "PDF 02 - Sec. 3.2"},
+          {"solicitud": "Actualización que requiere validación de cumplimiento", "canal": "Sucursal", "tiempo": "3 a 5 días hábiles", "fuente": "PDF 02 - Sec. 3.5"},
+          {"solicitud": "Desbloqueo SARLAFT", "canal": "Sucursal / Call Center", "tiempo": "24 a 72 horas hábiles", "fuente": "PDF 02 - Sec. 6"},
+          {"solicitud": "Reclamación cobro no reconocido (plazo para radicar)", "canal": "Call Center / App / Sucursal", "tiempo": "Máximo 30 días hábiles desde la transacción", "fuente": "PDF 01 - Sec. 6"},
+          {"solicitud": "Respuesta a reclamación cobro no reconocido", "canal": "Banco", "tiempo": "Máximo 15 días hábiles desde la radicación", "fuente": "PDF 01 - Sec. 6 / PDF 05 - Sec. 7"},
+          {"solicitud": "Bloqueo de tarjeta (pérdida o robo)", "canal": "App / WhatsApp / Call Center", "tiempo": "Instantáneo y sin costo", "fuente": "PDF 01 - Sec. 6"},
+          {"solicitud": "Generación de extracto (últimos 12-36 meses)", "canal": "App / Web / WhatsApp", "tiempo": "Inmediato", "fuente": "PDF 05 - Sec. 4"},
+          {"solicitud": "Paz y Salvo de crédito cancelado", "canal": "Sucursal", "tiempo": "Mismo día si hay información disponible; máximo 2 días hábiles", "fuente": "PDF 05 - Sec. 4.6"},
+          {"solicitud": "Extractos de más de 36 meses (solicitud escrita)", "canal": "Sucursal", "tiempo": "5 días hábiles", "fuente": "PDF 05 - Sec. 7"},
+          {"solicitud": "Registro en App Serfinanza", "canal": "Autogestión digital", "tiempo": "En el momento (proceso guiado ~5-10 minutos)", "fuente": "PDF 04 - Sec. 3"},
+          {"solicitud": "Constitución de CDT en sucursal", "canal": "Sucursal", "tiempo": "Aproximadamente 15-20 minutos", "fuente": "PDF 03 - Sec. 6.3"}
+        ]
+      }
+    },
+    {
+      "id": "politica_002",
+      "categoria": "politica",
+      "titulo": "Regla de seguridad: qué NUNCA debe pedir un asesor del banco",
+      "descripcion": "Política de seguridad oficial de Banco Serfinanza sobre la información que el banco NUNCA solicitará a los clientes.",
+      "palabras_clave": ["seguridad", "fraude", "phishing", "contrasena", "OTP", "clave", "nunca pedir", "proteccion datos"],
+      "fuente_pdf": "04_registro_app_serfinanza.pdf",
+      "seccion_fuente": "Sección 6",
+      "contenido": {
+        "regla_oficial_textual": "Banco Serfinanza NUNCA solicitará contraseñas, códigos OTP ni datos personales por llamadas entrantes, correos electrónicos o mensajes de texto.",
+        "que_NUNCA_debe_pedir_el_banco": [
+          "Contraseña de la App Serfinanza (clave de 6 dígitos).",
+          "Código OTP (código temporal enviado al celular o correo).",
+          "Clave de cajero automático o PIN de tarjeta.",
+          "Número completo de la tarjeta de crédito + fecha de vencimiento + código CVV.",
+          "Contraseña del portal web Banca en Línea."
+        ],
+        "que_SI_puede_pedir_un_asesor_para_verificar_identidad": [
+          "Número de cédula de ciudadanía.",
+          "Fecha de nacimiento (como pregunta de seguridad).",
+          "Nombre completo del titular.",
+          "Preguntas sobre productos del cliente (tipo, monto aproximado, fecha de apertura)."
+        ],
+        "que_hacer_si_cliente_reporta_intento_de_fraude": [
+          "No suministrar ninguna información.",
+          "Reportar el intento al Call Center: 01 8000 123 456.",
+          "Cambiar la contraseña de la App inmediatamente si ya la suministró."
+        ],
+        "instruccion_al_asesor": "Como asesor del banco NUNCA debes solicitar la contraseña o código OTP del cliente bajo ninguna circunstancia, aunque sea para ayudarlo con un trámite. El cliente debe ingresar sus credenciales directamente en los sistemas del banco."
+      }
+    },
+    {
+      "id": "politica_003",
+      "categoria": "politica",
+      "titulo": "Cuándo un cliente puede ser bloqueado por SARLAFT y cómo resolverlo",
+      "descripcion": "Política sobre el proceso de actualización masiva por SARLAFT, causas de bloqueo de productos y procedimiento de desbloqueo.",
+      "palabras_clave": ["SARLAFT", "bloqueo", "actualizacion masiva", "riesgo", "lavado activos", "desbloqueo", "cumplimiento", "productos bloqueados"],
+      "fuente_pdf": "02_actualizacion_datos_procesos.pdf",
+      "seccion_fuente": "Secciones 1, 5 y 6",
+      "contenido": {
+        "que_es_sarlaft": "El Sistema de Administración del Riesgo de Lavado de Activos y Financiación del Terrorismo (SARLAFT) obliga a Banco Serfinanza, por instrucción de la Superintendencia Financiera, a mantener la información de sus clientes vigente y verificada.",
+        "causas_de_bloqueo": [
+          "Datos desactualizados por más de dos años sin renovar.",
+          "El banco detecta un cambio en el perfil de riesgo del cliente.",
+          "El cliente no completó la actualización masiva en el plazo de 30 días notificados.",
+          "Información inconsistente o incompleta en el expediente del cliente."
+        ],
+        "consecuencias": [
+          "Bloqueo temporal de productos financieros (tarjetas, créditos, cuentas).",
+          "Imposibilidad de realizar transacciones de alto valor.",
+          "No recibir comunicaciones del banco.",
+          "Retrasos en solicitudes de crédito o apertura de nuevos productos."
+        ],
+        "proceso_actualizacion_masiva": {
+          "notificacion": "El banco avisa por correo electrónico, SMS y notificación en la App.",
+          "plazo": "30 días calendario para completar la actualización.",
+          "canales": ["App Serfinanza", "Portal Web", "Sucursal Física"],
+          "consecuencia_si_no_actualiza": "Restricción temporal de productos hasta que se complete el proceso."
+        },
+        "como_desbloquear": {
+          "canales": ["Sucursal física (con documentos requeridos)", "Call Center: 01 8000 123 456"],
+          "tiempo": "24 a 72 horas hábiles desde que se completa la actualización.",
+          "documentos": "Cédula original + documentos según el tipo de dato desactualizado."
+        },
+        "script_asesor": "Señor/señora [nombre], su perfil tiene una restricción temporal por actualización de datos pendiente, que es un requisito legal de la Superintendencia Financiera. Esto no afecta su historial crediticio. Para desbloquearlo necesitamos que complete aquí mismo la actualización con su cédula. El desbloqueo se procesa en 24 a 72 horas hábiles.",
+        "es_placeholder_documentos_internos": true,
+        "nota_documentos": "Completar con el listado exacto de documentos requeridos por tipo de cliente (empleado, independiente, pensionado, persona jurídica) según el protocolo interno del área de cumplimiento."
+      }
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "usuario": {
+    "nombre": "",
+    "cedula": "",
+    "edad": 0,
+    "ciudad": "",
+    "ocupacion": "",
+    "ingresos_mensuales": 0,
+    "antiguedad_cliente_años": 0,
+    "perfil_riesgo": ""
+  },
+  "productos_activos": [],
+  "resumen_financiero": {
+    "total_deudas": 0,
+    "total_ahorros_e_inversiones": 0,
+    "cuota_mensual_total": 0,
+    "capacidad_endeudamiento_restante": 0,
+    "indicador_salud_financiera": "saludable"
+  },
+  "alertas": [],
+  "ultima_actualizacion": ""
+}

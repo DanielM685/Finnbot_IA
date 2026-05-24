@@ -1,0 +1,78 @@
+{
+  "usuario": {
+    "nombre": "Carlos Andrés Méndez",
+    "cedula": "1098234567",
+    "edad": 42,
+    "ciudad": "Medellín",
+    "ocupacion": "Docente público - Institución Educativa Distrital",
+    "ingresos_mensuales": 3900000,
+    "antiguedad_cliente_años": 7,
+    "perfil_riesgo": "conservador"
+  },
+  "productos_activos": [
+    {
+      "id": "PROD-LB-001",
+      "tipo": "credito",
+      "nombre": "Crédito de Libranza",
+      "saldo_actual": 18500000,
+      "cupo_total": 25000000,
+      "cuota_mensual": 650000,
+      "fecha_apertura": "2022-08-10",
+      "fecha_vencimiento": "2028-08-10",
+      "cuotas_pagadas": 21,
+      "cuotas_totales": 72,
+      "tasa_ea": 18.50,
+      "estado": "activo"
+    },
+    {
+      "id": "PROD-CA-002",
+      "tipo": "ahorro",
+      "nombre": "Cuenta de Ahorro Serfinanza",
+      "saldo_actual": 2340000,
+      "cupo_total": 0,
+      "cuota_mensual": 0,
+      "fecha_apertura": "2018-03-22",
+      "fecha_vencimiento": "",
+      "cuotas_pagadas": 0,
+      "cuotas_totales": 0,
+      "tasa_ea": 2.50,
+      "estado": "activo"
+    },
+    {
+      "id": "PROD-CDT-002",
+      "tipo": "cdt",
+      "nombre": "CDT 360 días",
+      "saldo_actual": 8000000,
+      "cupo_total": 8000000,
+      "cuota_mensual": 0,
+      "fecha_apertura": "2026-01-15",
+      "fecha_vencimiento": "2027-01-15",
+      "cuotas_pagadas": 0,
+      "cuotas_totales": 0,
+      "tasa_ea": 10.00,
+      "estado": "activo"
+    }
+  ],
+  "resumen_financiero": {
+    "total_deudas": 18500000,
+    "total_ahorros_e_inversiones": 10340000,
+    "cuota_mensual_total": 650000,
+    "capacidad_endeudamiento_restante": 520000,
+    "indicador_salud_financiera": "moderado"
+  },
+  "alertas": [
+    {
+      "tipo": "info",
+      "mensaje": "Tu CDT de $8.000.000 vence el 15 de enero de 2027 (en 236 días). Considera renovarlo a la misma tasa del 10% E.A. para maximizar el rendimiento.",
+      "producto_relacionado": "CDT 360 días",
+      "fecha": "2026-05-23"
+    },
+    {
+      "tipo": "advertencia",
+      "mensaje": "Tu cuota de libranza ($650.000) se descuenta automáticamente el 30 de mayo de tu nómina. Verifica que tu empleador haya procesado el descuento correctamente.",
+      "producto_relacionado": "Crédito de Libranza",
+      "fecha": "2026-05-23"
+    }
+  ],
+  "ultima_actualizacion": "2026-05-23T00:00:00"
+}

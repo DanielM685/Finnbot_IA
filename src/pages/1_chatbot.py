@@ -1,0 +1,171 @@
+import streamlit as st
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
+
+from agent import ask_agent
+
+st.set_page_config(page_title="FinnBot - Banco Serfinanza", layout="wide")
+
+st.markdown("""
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+
+/* Fondo general */
+[data-testid="stAppViewContainer"] { background: #0B1120 !important; }
+[data-testid="stHeader"] { background: #111827 !important; border-bottom: 1px solid #2a3a52; }
+[data-testid="block-container"] { background: #0B1120; padding: 1.5rem 2rem; }
+
+/* Tipografía */
+html, body, [class*="css"] { font-family: 'DM Sans', sans-serif !important; color: #E8EDF5 !important; }
+h1 { font-family: 'Syne', sans-serif !important; font-size: 1.7rem !important; font-weight: 700 !important; color: #E8EDF5 !important; }
+
+/* Botón volver */
+.stButton > button {
+    background: transparent !important;
+    border: 1px solid #2a3a52 !important;
+    color: #7A90AA !important;
+    font-family: 'Syne', sans-serif !important;
+    font-size: 11px !important;
+    letter-spacing: 1px !important;
+    text-transform: uppercase !important;
+    border-radius: 3px !important;
+}
+.stButton > button:hover {
+    border-color: #C8A96E !important;
+    color: #C8A96E !important;
+}
+
+/* Alertas */
+[data-testid="stAlert"] {
+    border-radius: 0 6px 6px 0 !important;
+    border-left-width: 3px !important;
+}
+[data-testid="stAlert"][data-baseweb="notification"] {
+    background: rgba(200,169,110,0.08) !important;
+}
+
+/* Chat messages — burbuja del asistente */
+[data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarAssistant"]) {
+    background: #1e2d42 !important;
+    border: 1px solid #2a3a52 !important;
+    border-radius: 12px !important;
+    padding: 12px 16px !important;
+}
+
+/* Chat messages — burbuja del usuario */
+[data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarUser"]) {
+    background: rgba(96,165,250,0.08) !important;
+    border: 1px solid rgba(96,165,250,0.2) !important;
+    border-radius: 12px !important;
+    padding: 12px 16px !important;
+}
+
+/* Avatar del bot */
+[data-testid="stChatMessageAvatarAssistant"] {
+    background: rgba(200,169,110,0.15) !important;
+    border: 1px solid #C8A96E !important;
+    color: #C8A96E !important;
+}
+
+/* Avatar del usuario */
+[data-testid="stChatMessageAvatarUser"] {
+    background: rgba(96,165,250,0.15) !important;
+    border: 1px solid #60A5FA !important;
+    color: #60A5FA !important;
+}
+
+/* Input del chat */
+[data-testid="stChatInput"] textarea {
+    background: #1e2d42 !important;
+    border: 1px solid #2a3a52 !important;
+    color: #E8EDF5 !important;
+    font-family: 'DM Sans', sans-serif !important;
+    border-radius: 6px !important;
+}
+[data-testid="stChatInput"] textarea:focus {
+    border-color: #C8A96E !important;
+    box-shadow: none !important;
+}
+[data-testid="stChatInput"] textarea::placeholder { color: #4A5F78 !important; }
+
+/* Botón enviar del chat */
+[data-testid="stChatInput"] button {
+    background: transparent !important;
+    color: #C8A96E !important;
+    border-color: #C8A96E !important;
+}
+
+/* Spinner */
+[data-testid="stSpinner"] { color: #C8A96E !important; }
+
+/* Divider */
+hr { border-color: #2a3a52 !important; }
+</style>
+""", unsafe_allow_html=True)
+
+if "rol" not in st.session_state or st.session_state.rol != "cliente":
+    st.error("⚠️ Acceso denegado. Esta sección es exclusiva para clientes.")
+    if st.button("Ir a la Página de Inicio", use_container_width=True):
+        st.switch_page("src/pages/inicio.py")
+    st.stop()
+
+# ── Rutas dinámicas ───────────────────────────────────────────────
+ctx_path = st.session_state.get("demo_user_contexto", "data/user_context.json")
+txn_path = st.session_state.get("demo_user_transacc", "data/transactions.json")
+nombre   = st.session_state.get("demo_user_nombre", "Cliente").split()[0]
+
+if st.button("⬅️ Volver al Inicio"):
+    st.switch_page("pages/3_clientes.py")
+
+st.title("FinnBot IA — Banco Serfinanza 🤖")
+
+# ── Alertas (solo primera vez) ────────────────────────────────────
+alerta_key = f"alertas_mostradas_{ctx_path}"  # key única por usuario
+if alerta_key not in st.session_state:
+    import json
+    with open(ctx_path, encoding="utf-8") as f:
+        ctx = json.load(f)
+    for a in ctx.get("alertas", []):
+        if a["tipo"] == "advertencia":
+            st.warning(f"⚠️ {a['mensaje']}")
+        else:
+            st.info(f"ℹ️ {a['mensaje']}")
+    st.session_state[alerta_key] = True
+
+# ── Historial (key única por usuario para no mezclar conversaciones) ──
+hist_key    = f"historial_finnbot_{ctx_path}"
+lc_hist_key = f"lc_history_finnbot_{ctx_path}"
+
+if hist_key not in st.session_state:
+    st.session_state[hist_key] = [
+        {"role": "assistant", "content": f"¡Hola, {nombre}! Soy FinnBot, tu asesor virtual de Banco Serfinanza 👋 ¿En qué te puedo ayudar hoy?"}
+    ]
+if lc_hist_key not in st.session_state:
+    st.session_state[lc_hist_key] = []
+
+# ── Mostrar historial ─────────────────────────────────────────────
+for mensaje in st.session_state[hist_key]:
+    with st.chat_message(mensaje["role"]):
+        st.write(mensaje["content"])
+
+# ── Entrada del usuario ───────────────────────────────────────────
+if prompt := st.chat_input("Escribe tu mensaje aquí..."):
+    with st.chat_message("user"):
+        st.write(prompt)
+    st.session_state[hist_key].append({"role": "user", "content": prompt})
+
+    with st.chat_message("assistant"):
+        with st.spinner("FinnBot está pensando..."):
+            respuesta = ask_agent(
+                prompt,
+                st.session_state[lc_hist_key],
+                ctx_path=ctx_path,   # ← ruta dinámica
+                txn_path=txn_path,   # ← ruta dinámica
+            )
+        st.write(respuesta)
+
+    st.session_state[hist_key].append({"role": "assistant", "content": respuesta})
+    st.session_state[lc_hist_key].append(("human", prompt))
+    st.session_state[lc_hist_key].append(("ai", respuesta))
