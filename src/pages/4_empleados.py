@@ -67,7 +67,7 @@ h1 { font-family: 'Syne', sans-serif !important; font-size: 1.7rem !important; f
     color: #E8EDF5 !important;
 }
 
-/* Avatar de ServiGuía */
+/* Avatar de FinnBot */
 [data-testid="stChatMessageAvatarAssistant"] {
     background: rgba(129,140,248,0.12) !important;
     border: 1px solid #818CF8 !important;
@@ -139,24 +139,13 @@ if st.button("⬅️ Volver al Inicio"):
 
 st.title("FinnBot IA — Banco Serfinanza 🤖")
 
-# --- ALERTAS (se muestran una sola vez al cargar) ---
-if "alertas_mostradas" not in st.session_state:
-    ctx = load_context()
-    alertas = ctx.get("alertas", [])
-    for a in alertas:
-        if a["tipo"] == "advertencia":
-            st.warning(f"⚠️ {a['mensaje']}")
-        else:
-            st.info(f"ℹ️ {a['mensaje']}")
-    st.session_state.alertas_mostradas = True
-
 # --- INICIALIZAR ESTADO ---
 
 if "historial" not in st.session_state:
     st.session_state.historial = [
         {
             "role": "assistant",
-            "content": f"¡Hola, Soy ServigGuia, tu asesor virtual de Banco Serfinanza 👋 ¿En qué te puedo ayudar hoy?"
+            "content": f"¡Hola, Soy FinnBot, tu asesor de finanzas 💚 Estoy aquí para ayudarte. ¿En qué te puedo ayudar hoy?"
         }
     ]
 
@@ -178,7 +167,7 @@ if prompt := st.chat_input("Escribe tu mensaje aquí..."):
 
     # Llamar al agente con el historial LangChain
     with st.chat_message("assistant"):
-        with st.spinner("ServiGuia está pensando..."):
+        with st.spinner("FinnBot está pensando..."):
             respuesta = ask_employee_agent(prompt, st.session_state.history)
         st.write(respuesta)
 

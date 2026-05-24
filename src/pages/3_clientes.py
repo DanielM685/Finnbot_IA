@@ -3,6 +3,7 @@ import pandas as pd
 import altair as alt
 import json
 
+
 st.set_page_config(
     page_title="Panel de Cliente — Serfinanza",
     layout="wide",
@@ -288,8 +289,8 @@ with col_b1:
             st.switch_page("pages/1_chatbot.py")
 with col_b2:
     with st.container(border=True):
-        st.subheader("Plan de Ahorro con Nova")
-        st.markdown("Analice sus consumos y organice sus metas de ahorro con ayuda de Nova.")
+        st.subheader("Plan de Ahorro con FinnBot")
+        st.markdown("Analice sus consumos y organice sus metas de ahorro con ayuda de FinnBot.")
         st.write("")
         if st.button("Ver mi Plan de Ahorros", use_container_width=True, type="primary"):
             st.switch_page("pages/2_reportes.py")

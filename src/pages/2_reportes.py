@@ -2,11 +2,12 @@ import streamlit as st
 import sys
 from pathlib import Path
 
+
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 from savings_agent import ask_savings_agent
 
-st.set_page_config(page_title="Nova - Plan de Ahorros", layout="wide")
+st.set_page_config(page_title="Plan de Ahorros - FinnBot", layout="wide")
 
 st.markdown("""
 <style>
@@ -53,7 +54,7 @@ h1 { font-family: 'Syne', sans-serif !important; font-size: 1.7rem !important; f
     padding: 12px 16px !important;
 }
 
-/* Avatar de Nova */
+/* Avatar de la asistente */
 [data-testid="stChatMessageAvatarAssistant"] {
     background: rgba(45,212,191,0.12) !important;
     border: 1px solid #2DD4BF !important;
@@ -110,15 +111,15 @@ nombre   = st.session_state.get("demo_user_nombre", "Cliente").split()[0]
 if st.button("⬅️ Volver al Inicio"):
     st.switch_page("pages/3_clientes.py")
 
-st.title("Nova IA — Tu Asesora de Ahorros 💚")
+st.title("Asesor de Ahorros de FinnBot 💚")
 
 # ── Historial (key única por usuario) ────────────────────────────
-hist_key    = f"historial_nova_{ctx_path}"
-lc_hist_key = f"lc_history_nova_{ctx_path}"
+hist_key    = f"historial_FinnBot_{ctx_path}"
+lc_hist_key = f"lc_history_FinnBot_{ctx_path}"
 
 if hist_key not in st.session_state:
     st.session_state[hist_key] = [
-        {"role": "assistant", "content": f"¡Hola, {nombre}! Soy Nova, tu asesora personal de finanzas 💚 Estoy aquí para ayudarte a entender tus gastos y construir un plan de ahorro real. ¿Por dónde empezamos?"}
+        {"role": "assistant", "content": f"¡Hola, {nombre}! Soy FinnBot, tu asesor de finanzas 💚 Estoy aquí para ayudarte a entender tus gastos y construir un plan de ahorro real. ¿Por dónde empezamos?"}
     ]
 if lc_hist_key not in st.session_state:
     st.session_state[lc_hist_key] = []
@@ -135,12 +136,12 @@ if prompt := st.chat_input("Escribe tu mensaje aquí..."):
     st.session_state[hist_key].append({"role": "user", "content": prompt})
 
     with st.chat_message("assistant"):
-        with st.spinner("Nova está analizando..."):
+        with st.spinner("FinnBot está analizando..."):
             respuesta = ask_savings_agent(
                 prompt,
                 st.session_state[lc_hist_key],
-                ctx_path=ctx_path,   # ← ruta dinámica
-                txn_path=txn_path,   # ← ruta dinámica
+                ctx_path=ctx_path,   
+                txn_path=txn_path,   
             )
         st.write(respuesta)
 

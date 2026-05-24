@@ -169,6 +169,7 @@ Es el primer mensaje del asesor. Antes de responder al fondo, hazle estas dos pr
 Luego responde brevemente al mensaje inicial si aplica.
 """
 
+    
     system_prompt = f"""Eres ServiGuía, el asistente interno de Banco Serfinanza para asesores y trabajadores.
 Tu única fuente de verdad es la GUÍA INTERNA que se te proporciona abajo.
 No inventes información. Si algo no está en la guía, dilo claramente.

@@ -1,9 +1,9 @@
 import os
 import sys
+import re
 from pathlib import Path
 from dotenv import load_dotenv
 from langchain_groq import ChatGroq
-
 
 # ── Rutas ────────────────────────────────────────────────────────
 SRC_DIR  = Path(__file__).parent
@@ -33,57 +33,85 @@ load_dotenv()
 llm = ChatGroq(
     model="llama-3.3-70b-versatile",
     api_key=os.getenv("GROQ_API_KEY"),
-    temperature=0.3,  # más enfocado para tono profesional
-    max_tokens=1024,
+    temperature=0.3,
+    max_tokens=600,   # forzar concisión desde el modelo
 )
 
 _fmt = lambda v: "$" + f"{float(v):,.0f}".replace(",", ".")
 
 
-# ── Análisis de hábitos de gasto ─────────────────────────────────
+# ── Viabilidad financiera ─────────────────────────────────────────
+def _calcular_viabilidad() -> str:
+    """
+    Calcula cuánto dinero real le sobra al usuario cada mes
+    y si podría asumir una cuota adicional.
+    """
+    ctx     = load_context()
+    usuario = ctx["usuario"]
+    resumen = ctx["resumen_financiero"]
+
+    ingresos      = float(usuario.get("ingresos_mensuales", 0))
+    cuota_actual  = float(resumen.get("cuota_mensual_total", 0))
+    capacidad     = float(resumen.get("capacidad_endeudamiento_restante", 0))
+
+    # Gasto promedio mensual en transacciones (no deudas)
+    summary       = get_transactions_summary()
+    gasto_txn_mes = float(summary.get("total_gastado_mes_actual", 0))
+
+    # Ingreso disponible real después de deudas y gastos del mes
+    disponible_real = ingresos - cuota_actual - gasto_txn_mes
+
+    return (
+        f"VIABILIDAD FINANCIERA ACTUAL:\n"
+        f"Ingresos mensuales       : {_fmt(ingresos)}\n"
+        f"Cuotas de deuda/mes      : {_fmt(cuota_actual)}\n"
+        f"Gasto variable este mes  : {_fmt(gasto_txn_mes)}\n"
+        f"Sobrante real estimado   : {_fmt(max(disponible_real, 0))}\n"
+        f"Capacidad endeudamiento  : {_fmt(capacidad)}\n"
+        f"Indicador salud          : {resumen.get('indicador_salud_financiera', '—')}\n"
+        f"\nUSA ESTOS NÚMEROS para decirle directamente si puede o no puede "
+        f"asumir una cuota nueva, comprar algo o ahorrar un monto específico."
+    )
+
+
+# ── Análisis de hábitos ───────────────────────────────────────────
 def _analizar_habitos() -> str:
-    """Genera un análisis detallado de hábitos de gasto para el plan de ahorro."""
-    txns = load_transactions()
+    txns    = load_transactions()
     resumen = get_transactions_summary()
 
-    # Agrupar por categoría
     categorias: dict[str, list] = {}
     for t in txns:
         if t.get("estado") != "aprobada":
             continue
         cat = t.get("categoria", "Otro")
-        if cat not in categorias:
-            categorias[cat] = []
-        categorias[cat].append(float(t["monto"]))
+        categorias.setdefault(cat, []).append(float(t["monto"]))
 
-    # Calcular totales y promedios por categoría
-    resumen_cats = []
-    for cat, montos in sorted(categorias.items(), key=lambda x: sum(x[1]), reverse=True):
-        total = sum(montos)
-        promedio = total / len(montos)
-        resumen_cats.append(
-            f"  - {cat}: {_fmt(total)} total | {len(montos)} transacciones | promedio {_fmt(promedio)}"
-        )
-
-    # Detectar gastos recurrentes
-    recurrentes = [t for t in txns if t.get("es_recurrente")]
-    total_recurrentes = sum(float(t["monto"]) for t in recurrentes)
-
-    lines = [
-        "ANÁLISIS DE HÁBITOS DE GASTO:",
-        f"Total gastado (mes actual): {_fmt(resumen['total_gastado_mes_actual'])}",
-        f"Total gastado (mes anterior): {_fmt(resumen['total_gastado_mes_anterior'])}",
-        f"Promedio por transacción: {_fmt(resumen['promedio_transaccion'])}",
-        f"Gastos recurrentes mensuales: {_fmt(total_recurrentes)} ({len(recurrentes)} suscripciones/servicios)",
-        "",
-        "Desglose por categoría (historial completo):",
-        *resumen_cats,
+    resumen_cats = [
+        f"  - {cat}: {_fmt(sum(m))} total | {len(m)} transacciones"
+        for cat, m in sorted(categorias.items(), key=lambda x: sum(x[1]), reverse=True)
     ]
 
-    return "\n".join(lines)
+    recurrentes       = [t for t in txns if t.get("es_recurrente")]
+    total_recurrentes = sum(float(t["monto"]) for t in recurrentes)
+    detalle_recurrentes = [
+        f"  - {t['comercio']}: {_fmt(t['monto'])}"
+        for t in recurrentes
+    ]
+
+    return "\n".join([
+        "HÁBITOS DE GASTO:",
+        f"Mes actual   : {_fmt(resumen['total_gastado_mes_actual'])}",
+        f"Mes anterior : {_fmt(resumen['total_gastado_mes_anterior'])}",
+        f"Promedio/txn : {_fmt(resumen['promedio_transaccion'])}",
+        f"Recurrentes  : {_fmt(total_recurrentes)} ({len(recurrentes)} suscripciones)",
+        *detalle_recurrentes,
+        "",
+        "Por categoría:",
+        *resumen_cats,
+    ])
 
 
-# ── Detectar si el usuario pide productos ────────────────────────
+# ── Detectar si pide producto ─────────────────────────────────────
 _PALABRAS_PRODUCTO = {
     "recomienda", "recomendame", "recomiéndame", "sugiéreme", "sugerir",
     "producto", "cuenta", "cdt", "ahorro", "inversión", "inversion",
@@ -93,8 +121,7 @@ _PALABRAS_PRODUCTO = {
 }
 
 def _usuario_pide_producto(mensaje: str) -> bool:
-    msg = mensaje.lower()
-    return any(palabra in msg for palabra in _PALABRAS_PRODUCTO)
+    return any(p in mensaje.lower() for p in _PALABRAS_PRODUCTO)
 
 
 # ── Nombre ────────────────────────────────────────────────────────
@@ -106,69 +133,73 @@ def _get_nombre() -> str:
         return "amigo"
 
 
+# ── Rutas dinámicas ───────────────────────────────────────────────
 def _set_rutas(ctx_path: str = None, txn_path: str = None):
     _txn_mod._TXN_PATH = Path(txn_path) if txn_path else DATA_DIR / "transactions.json"
     _ctx_mod._CTX_PATH = Path(ctx_path) if ctx_path else DATA_DIR / "user_context.json"
-    
+
+
+# ── Limpiar formato ───────────────────────────────────────────────
+def _limpiar_formato(texto: str) -> str:
+    texto = re.sub(r'\$\s*', '$', texto)
+    texto = re.sub(r'\*\*(.*?)\*\*', r'\1', texto)   # quitar bold markdown
+    texto = re.sub(r'`([^`]+)`', r'\1', texto)        # quitar backticks
+    return texto.strip()
+
+
 # ── Función principal ─────────────────────────────────────────────
-def ask_savings_agent(user_message: str, history: list, ctx_path: str = None, txn_path: str = None) -> str:
-    _set_rutas(ctx_path, txn_path)  
-    """
-    Agente de plan de ahorro: tono amigable, enfocado en hábitos y metas.
-    Solo menciona productos de Serfinanza si el usuario los pide explícitamente.
-    """
+def ask_savings_agent(
+    user_message: str,
+    history: list,
+    ctx_path: str = None,
+    txn_path: str = None,
+) -> str:
+    _set_rutas(ctx_path, txn_path)
 
-    user_info   = get_user_context()
+    user_info  = get_user_context()
     txn_resumen = get_txn_context()
-    habitos     = _analizar_habitos()
-    nombre      = _get_nombre()
+    habitos    = _analizar_habitos()
+    viabilidad = _calcular_viabilidad()
+    nombre     = _get_nombre()
 
-    # Contexto de productos: solo si el usuario lo pide
     producto_section = ""
     if _usuario_pide_producto(user_message):
         productos = get_product_context(query=user_message)
-        producto_section = f"""
-El usuario preguntó por productos. Aquí tienes opciones relevantes de Serfinanza:
-{productos}
-Recomiéndale máximo 1 o 2 opciones que encajen con su situación financiera actual.
-"""
+        producto_section = (
+            f"\nEL USUARIO PREGUNTÓ POR PRODUCTOS. Opciones relevantes:\n{productos}\n"
+            f"Recomienda máximo 2. Usa los datos de VIABILIDAD para decirle "
+            f"directamente si puede o no asumir la cuota de ese producto ahora mismo."
+        )
 
-    system_prompt = f"""Eres Nova, una asesora financiera personal independiente, cercana y sin rodeos. 
-No trabajas para ningún banco: eres como esa amiga experta en finanzas que te dice las cosas claras con cariño.
+    es_primer_msg = len(history) == 0
+    intro = (
+        "PRIMER MENSAJE: Saluda brevemente y haz exactamente 2 preguntas: "
+        "1) ¿Tiene alguna meta de ahorro en mente? "
+        "2) ¿Cuánto cree que podría apartar cómodamente al mes? "
+        "No respondas nada más hasta tener esas respuestas.\n\n"
+        if es_primer_msg else ""
+    )
 
-Tu misión es ayudar a {nombre} a entender sus hábitos de gasto y construir un plan de ahorro realista y personalizado.
+    
+    system_prompt = f"""Eres FinnBot, asesora financiera personal. Directa, honesta y cercana.
 
 {user_info}
+
+{viabilidad}
 
 {txn_resumen}
 
 {habitos}
 {producto_section}
 
-TU PERSONALIDAD Y ESTILO:
-- Habla de forma cercana y natural, como una amiga. Nada de lenguaje bancario.
-- Usa el nombre del cliente con naturalidad, no en cada frase.
-- Sé honesta: si ve un gasto que puede reducir, díselo directamente pero con amabilidad.
-- Celebra los buenos hábitos que ya tiene.
-- Da consejos concretos y alcanzables, no genéricos.
-- FORMATO: Escribe siempre en texto plano. Para valores monetarios usa SIEMPRE el formato $X.XXX.XXX (con punto como separador de miles). Nunca uses símbolos LaTeX, fórmulas matemáticas, ni caracteres especiales. No uses markdown de tablas.
-- FORMATO DE MONEDA (ESTRICTO): Cada vez que menciones un valor monetario, deuda, cupo o saldo, debes anteponer INMEDIATAMENTE el signo $. 
-  * EJEMPLO CORRECTO: "tienes un cupo total de $10.000.000 y has utilizado $3.200.000".
-  * EJEMPLO INCORRECTO: "un cupo total de 10.000.000" (Falta el $).
-  Nunca asumas que el usuario entiende que son pesos si no pones el $.
-
-SOBRE PRODUCTOS BANCARIOS:
-- NO menciones ni recomiendes productos de Serfinanza a menos que el usuario lo pida explícitamente.
-- Si el usuario los pide, recomienda máximo 2 opciones y explica en lenguaje simple por qué le convienen.
-
-CÓMO CONSTRUIR EL PLAN DE AHORRO:
-1. Analiza sus ingresos vs gastos reales (usa los datos de transacciones).
-2. Identifica categorías donde puede reducir sin sacrificar calidad de vida.
-3. Propón un monto realista de ahorro mensual basado en su capacidad real.
-4. Sugiere metas concretas (fondo de emergencia, viaje, inversión) con plazos reales.
-5. Haz seguimiento: si ya tuvo conversación previa, recuerda lo que se habló.
-
-Sé completa en tus respuestas pero sin ser aburrida. Si necesitas más información para personalizar el plan, pregúntale."""
+REGLAS ESTRICTAS:
+{intro}
+- MÁXIMO 4 líneas por respuesta. Si necesitas más, usa viñetas cortas.
+- Usa los datos reales. NUNCA respondas con generalidades si tienes el número exacto.
+- Si alguien pregunta si puede comprar/ahorrar algo: calcula con los datos de VIABILIDAD y di SÍ o NO directamente, con el número que lo justifica.
+- Moneda siempre con $. Ejemplo: $3.200.000. Nunca sin el signo.
+- Sin markdown, sin asteriscos, sin fórmulas. Solo texto plano.
+- Si el usuario pide un producto: dile si puede o no pagarlo con su situación actual antes de recomendarlo."""
 
     messages = [("system", system_prompt)]
     for interaction in history:
