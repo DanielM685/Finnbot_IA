@@ -5,6 +5,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from langchain_groq import ChatGroq
 
+
 # ── Rutas ────────────────────────────────────────────────────────
 SRC_DIR  = Path(__file__).parent
 DATA_DIR = SRC_DIR.parent / "data"

@@ -271,3 +271,4 @@ if __name__ == "__main__":
     print("─" * 60)
     print(get_context_for_prompt())
     print()
+

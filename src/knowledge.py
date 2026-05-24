@@ -6,6 +6,7 @@ _PRODUCTS_PATH = Path(__file__).parent.parent / "data" / "products.json"
 _TIPOS_GASTO = {"compra", "pago"}
 
 
+
 def _cargar_productos() -> list:
     with open(_PRODUCTS_PATH, encoding="utf-8") as f:
         return json.load(f)["productos"]
