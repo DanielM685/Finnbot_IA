@@ -1,7 +1,5 @@
 import streamlit as st
 import pandas as pd
-import os
-import json
 import altair as alt 
 
 # 1. Configurar la página en modo ancho ("wide") para que el diseño sea óptimo
@@ -10,6 +8,13 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="collapsed"
 )
+
+
+if "rol" not in st.session_state or st.session_state.rol != "cliente":
+    st.error("⚠️ Acceso denegado. Esta sección es exclusiva para clientes.")
+    if st.button("Ir a la Página de Inicio", use_container_width=True):
+        st.switch_page("src/pages/inicio.py")
+    st.stop() # <-- Detiene todo el código de abajo para que no puedan ver nada
 
 PATH_JSON = "data/transactions.json"
 
